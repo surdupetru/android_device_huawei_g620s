@@ -173,6 +173,7 @@ BOARD_SEPOLICY_UNION += \
     file.te \
     file_contexts \
     netd.te \
+    nfc.te \
     system_server.te
 
 TARGET_SYSTEM_PROP := $(LOCAL_PATH)/system.prop

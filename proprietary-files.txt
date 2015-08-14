@@ -3,3 +3,15 @@ bin/mm-qcamera-app
 lib/hw/camera.vendor.msm8916.so
 lib/libmmjpeg_interface.so
 lib/libqomx_core.so
+
+# NFC
+bin/nfc_detect
+lib/hw/nfc_nci_pn547.default.so
+lib/libnfc_nci_jni_nxp.so
+lib/libnfc_ndef.so
+lib/libnfc-nci-nxp.so
+vendor/firmware/libpn547_fw.so
+vendor/lib/hw/nfc_nci.msm8916.so
+vendor/lib/libnfcD_nci_jni.so
+vendor/lib/libnfcD-nci.so
+
