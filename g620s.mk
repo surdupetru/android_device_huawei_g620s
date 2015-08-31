@@ -86,23 +86,26 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/prebuilts/sec_config:system/etc/sec_config
 
-# GPS config
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/gps/flp.conf:system/etc/flp.conf \
-    $(LOCAL_PATH)/gps/gps.conf:system/etc/gps.conf \
-    $(LOCAL_PATH)/gps/izat.conf:system/etc/izat.conf \
-    $(LOCAL_PATH)/gps/quipc.conf:system/etc/quipc.conf \
-    $(LOCAL_PATH)/gps/sap.conf:system/etc/sap.conf
-
 # MSM IRQ Balancer configuration file
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/prebuilts/msm_irqbalance.conf:system/vendor/etc/msm_irqbalance.conf
 
 #wlan driver
 PRODUCT_COPY_FILES += \
-    kernel/huawei/msm8916/drivers/staging/prima/firmware_bin/WCNSS_cfg.dat:system/etc/firmware/wlan/prima/WCNSS_cfg.dat \
+    $(LOCAL_PATH)/wifi/hostapd.accept:system/etc/hostapd/hostapd.accept \
+    $(LOCAL_PATH)/wifi/hostapd.conf:system/etc/hostapd/hostapd_default.conf \
+    $(LOCAL_PATH)/wifi/hostapd.deny:system/etc/hostapd/hostapd.deny \
+    $(LOCAL_PATH)/wifi/p2p_supplicant_overlay.conf:system/etc/wifi/p2p_supplicant_overlay.conf \
+    $(LOCAL_PATH)/wifi/wpa_supplicant_overlay.conf:system/etc/wifi/wpa_supplicant_overlay.conf
+
+PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/wifi/WCNSS_qcom_cfg.ini:system/etc/wifi/WCNSS_qcom_cfg.ini \
-    $(LOCAL_PATH)/wifi/WCNSS_qcom_wlan_nv.bin:system/etc/wifi/WCNSS_qcom_wlan_nv.bin
+    $(LOCAL_PATH)/wifi/WCNSS_cfg.dat:system/etc/firmware/wlan/prima/WCNSS_cfg.dat \
+    $(LOCAL_PATH)/wifi/WCNSS_qcom_wlan_nv.bin:system/etc/firmware/wlan/prima/WCNSS_qcom_wlan_nv.bin
+
+# Thermal
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/prebuilts/thermal-engine.conf:system/etc/thermal-engine.conf
 
 # Boot animation
 TARGET_SCREEN_HEIGHT := 1280
@@ -235,6 +238,7 @@ PRODUCT_PACKAGES += \
     init.qcom.class_core.sh \
     init.qcom.early_boot.sh \
     init.qcom.factory.sh \
+    init.qcom.power.rc \
     init.qcom.rc \
     init.qcom.sh \
     init.qcom.ssr.sh \
@@ -266,8 +270,9 @@ PRODUCT_PACKAGES += \
     qca6234-service.sh \
     vold.fstab
 
-# Ril
+# Misc
 PRODUCT_PACKAGES += \
+    libbson \
     libxml2
 
 # Stk
@@ -280,20 +285,15 @@ PRODUCT_PACKAGES += \
 
 # WiFi
 PRODUCT_PACKAGES += \
-    wpa_supplicant.conf \
-    wpa_supplicant \
-    libwpa_client \
-    wcnss_service \
-    libwcnss_qmi \
-    libQWiFiSoftApCfg \
     libqsap_sdk \
-    wpa_supplicant_overlay.conf \
-    p2p_supplicant_overlay.conf \
+    libQWiFiSoftApCfg \
+    libwpa_client \
     hostapd \
-    hostapd_cli \
-    hostapd.conf \
-    hostapd.deny \
-    hostapd.accept
+    dhcpcd.conf \
+    wpa_supplicant \
+    wpa_supplicant.conf \
+    libwcnss_qmi \
+    wcnss_service
 
 PRODUCT_BOOT_JARS += \
     qcmediaplayer
