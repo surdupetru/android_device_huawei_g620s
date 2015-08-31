@@ -1045,7 +1045,7 @@ on property:sys.perf.profile=1
     write /sys/devices/system/cpu/cpufreq/interactive/boostpulse_duration 60000
     write /sys/devices/system/cpu/cpufreq/interactive/io_is_busy 0
     write /sys/devices/system/cpu/cpufreq/interactive/max_freq_hysteresis 50000
-    write /sys/devices/system/cpu/cpufreq/interactive/target_loads "1 200000:60 4000000:65 533000:70 800000:85 998400:90 1094400:80"
+    write /sys/devices/system/cpu/cpufreq/interactive/target_loads "1 200000:75 998400:90 1094400:80"
 
     # enable thermal core_control now
     write /sys/module/msm_thermal/core_control/enabled 1
