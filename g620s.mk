@@ -299,6 +299,9 @@ PRODUCT_BOOT_JARS += \
     qcmediaplayer
 
 # System Properties
+PRODUCT_PROPERTY_OVERRIDES += \
+    drm.service.enabled=true
+
 ADDITIONAL_DEFAULT_PROPERTIES += \
     persist.sys.root_access=1
 
