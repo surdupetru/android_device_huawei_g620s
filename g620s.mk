@@ -302,6 +302,10 @@ PRODUCT_BOOT_JARS += \
 ADDITIONAL_DEFAULT_PROPERTIES += \
     persist.sys.root_access=1
 
+# Camera shutter sound property
+PRODUCT_PROPERTY_OVERRIDES += \
+    persist.sys.camera-sound=1
+
 PRODUCT_PROPERTY_OVERRIDES += \
     dalvik.vm.heapgrowthlimit=128m \
     dalvik.vm.heapminfree=6m \
