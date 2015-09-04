@@ -299,6 +299,9 @@ PRODUCT_BOOT_JARS += \
     qcmediaplayer
 
 # System Properties
+ADDITIONAL_DEFAULT_PROPERTIES += \
+    persist.sys.root_access=1
+
 PRODUCT_PROPERTY_OVERRIDES += \
     dalvik.vm.heapgrowthlimit=128m \
     dalvik.vm.heapminfree=6m \
