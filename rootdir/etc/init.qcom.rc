@@ -1001,12 +1001,6 @@ service vm_bms /system/bin/vm_bms
     group root
     disabled
 
-service msm_irqbalance /system/bin/msm_irqbalance -p 0,0,0,0,1,1,1,1
-    class core
-    user root
-    group root
-    disabled
-
 # Huawei service
 #/*<DTS2014041105767 yedapeng 20140401 begin */
 service rmt_oeminfo /sbin/rmt_oeminfo
