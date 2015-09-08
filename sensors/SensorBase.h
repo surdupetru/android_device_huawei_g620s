@@ -26,10 +26,12 @@
 #include <hardware/hardware.h>
 #include <hardware/sensors.h>
 #include <CalibrationManager.h>
+#include <sensors_extension.h>
 
 /*****************************************************************************/
 
 struct sensors_event_t;
+struct SensorContext;
 
 class SensorBase {
 protected:
@@ -39,6 +41,8 @@ protected:
 	char		input_name[PATH_MAX];
 	int		dev_fd;
 	int		data_fd;
+	int64_t report_time;
+	bool mUseAbsTimeStamp;
 
 	int openInput(const char* inputName);
 	static int64_t getTimestamp();
@@ -53,15 +57,19 @@ protected:
 
 public:
 			SensorBase(const char* dev_name, const char* data_name,
-					sensor_t* sensor_info = NULL);
+					const struct SensorContext* context = NULL);
 
 	virtual ~SensorBase();
 
 	virtual int readEvents(sensors_event_t* data, int count) = 0;
+	virtual int injectEvents(sensors_event_t* data, int count);
 	virtual bool hasPendingEvents() const;
 	virtual int getFd() const;
 	virtual int setDelay(int32_t handle, int64_t ns);
 	virtual int enable(int32_t handle, int enabled) = 0;
+	virtual int calibrate(int32_t handle, struct cal_cmd_t *para,
+					struct cal_result_t *outpara);
+	virtual int initCalibrate(int32_t handle, struct cal_result_t *prar);
 };
 
 /*****************************************************************************/

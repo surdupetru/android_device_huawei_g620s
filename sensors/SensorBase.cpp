@@ -1,4 +1,6 @@
 /*
+ * Copyright (c) 2014, The Linux Foundation. All rights reserved.
+ * Not a Contribution.
  * Copyright (C) 2008 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,6 +28,7 @@
 
 #include <linux/input.h>
 
+#include "NativeSensorManager.h"
 #include "SensorBase.h"
 
 /*****************************************************************************/
@@ -33,15 +36,14 @@
 SensorBase::SensorBase(
         const char* dev_name,
         const char* data_name,
-        sensor_t* sensor_info /* = NULL */)
+        const struct SensorContext* context /* = NULL */)
     : dev_name(dev_name), data_name(data_name),
       algo(NULL), dev_fd(-1), data_fd(-1)
 {
-        if (sensor_info != NULL) {
-                CalibrationManager *cm = CalibrationManager::defaultCalibrationManager();
-                if (cm != NULL)
-                        algo = cm->getCalAlgo(sensor_info);
-        }
+        if (context != NULL) {
+                CalibrationManager& cm(CalibrationManager::getInstance());
+		algo = cm.getCalAlgo(context->sensor);
+	}
 
         if (data_name) {
                 data_fd = openInput(data_name);
@@ -80,7 +82,7 @@ int SensorBase::getFd() const {
     return data_fd;
 }
 
-int SensorBase::setDelay(int32_t handle, int64_t ns) {
+int SensorBase::setDelay(int32_t, int64_t) {
     return 0;
 }
 
@@ -132,4 +134,20 @@ int SensorBase::openInput(const char* inputName) {
     closedir(dir);
     ALOGE_IF(fd<0, "couldn't find '%s' input device", inputName);
     return fd;
+}
+
+int SensorBase::injectEvents(sensors_event_t*, int)
+{
+	return 0;
+}
+
+int SensorBase::calibrate(int32_t handle, struct cal_cmd_t *para,
+                 struct cal_result_t *outpara)
+{
+    return -1;
+}
+
+int SensorBase::initCalibrate(int32_t handle, struct cal_result_t *prar)
+{
+    return -1;
 }

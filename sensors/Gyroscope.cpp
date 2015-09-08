@@ -1,4 +1,6 @@
 /*
+ * Copyright (c) 2014, The Linux Foundation. All rights reserved.
+ * Not a Contribution.
  * Copyright (C) 2008 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,6 +24,7 @@
 #include <dirent.h>
 #include <sys/select.h>
 #include <cutils/log.h>
+#include <cutils/properties.h>
 
 #include "GyroSensor.h"
 #include "sensors.h"
@@ -55,16 +58,35 @@ GyroSensor::GyroSensor()
 	memset(mPendingEvent.data, 0, sizeof(mPendingEvent.data));
 
 	if (data_fd) {
-		strcpy(input_sysfs_path, "/sys/class/input/");
-		strcat(input_sysfs_path, input_name);
+		strlcpy(input_sysfs_path, "/sys/class/input/", sizeof(input_sysfs_path));
+		strlcat(input_sysfs_path, input_name, sizeof(input_sysfs_path));
 #ifdef TARGET_8610
-		strcat(input_sysfs_path, "/device/");
+		strlcat(input_sysfs_path, "/device/", sizeof(input_sysfs_path));
 #else
-		strcat(input_sysfs_path, "/device/device/");
+		strlcat(input_sysfs_path, "/device/device/", sizeof(input_sysfs_path));
 #endif
 		input_sysfs_path_len = strlen(input_sysfs_path);
 		enable(0, 1);
 	}
+}
+
+GyroSensor::GyroSensor(struct SensorContext *context)
+	: SensorBase(NULL, NULL),
+	  mEnabled(0),
+	  mInputReader(4),
+	  mHasPendingEvent(false),
+	  mEnabledTime(0)
+{
+	mPendingEvent.version = sizeof(sensors_event_t);
+	mPendingEvent.sensor = context->sensor->handle;
+	mPendingEvent.type = SENSOR_TYPE_GYROSCOPE;
+	memset(mPendingEvent.data, 0, sizeof(mPendingEvent.data));
+	data_fd = context->data_fd;
+	strlcpy(input_sysfs_path, context->enable_path, sizeof(input_sysfs_path));
+	input_sysfs_path_len = strlen(input_sysfs_path);
+	mUseAbsTimeStamp = false;
+
+	enable(0, 1);
 }
 
 GyroSensor::GyroSensor(char *name)
@@ -81,7 +103,6 @@ GyroSensor::GyroSensor(char *name)
 
 	if (data_fd) {
 		strlcpy(input_sysfs_path, SYSFS_CLASS, sizeof(input_sysfs_path));
-		strlcat(input_sysfs_path, "/", sizeof(input_sysfs_path));
 		strlcat(input_sysfs_path, name, sizeof(input_sysfs_path));
 		strlcat(input_sysfs_path, "/", sizeof(input_sysfs_path));
 		input_sysfs_path_len = strlen(input_sysfs_path);
@@ -117,6 +138,13 @@ int GyroSensor::setInitialState() {
 
 int GyroSensor::enable(int32_t, int en) {
 	int flags = en ? 1 : 0;
+	char propBuf[PROPERTY_VALUE_MAX];
+	property_get("sensors.gyro.loopback", propBuf, "0");
+	if (strcmp(propBuf, "1") == 0) {
+		mEnabled = flags;
+		ALOGE("sensors.gyro.loopback is set");
+		return 0;
+	}
 	if (flags != mEnabled) {
 		int fd;
 		strlcpy(&input_sysfs_path[input_sysfs_path_len],
@@ -147,9 +175,15 @@ bool GyroSensor::hasPendingEvents() const {
 	return mHasPendingEvent;
 }
 
-int GyroSensor::setDelay(int32_t handle, int64_t delay_ns)
+int GyroSensor::setDelay(int32_t, int64_t delay_ns)
 {
 	int fd;
+	char propBuf[PROPERTY_VALUE_MAX];
+	property_get("sensors.gyro.loopback", propBuf, "0");
+	if (strcmp(propBuf, "1") == 0) {
+		ALOGE("sensors.gyro.loopback is set");
+		return 0;
+	}
 	int delay_ms = delay_ns / 1000000;
 	strlcpy(&input_sysfs_path[input_sysfs_path_len],
 			SYSFS_POLL_DELAY, SYSFS_MAXLEN);
@@ -198,13 +232,33 @@ again:
 				mPendingEvent.data[2] = value * CONVERT_GYRO_Z;
 			}
 		} else if (type == EV_SYN) {
-			mPendingEvent.timestamp = timevalToNano(event->time);
-			if (mEnabled) {
-				if (mPendingEvent.timestamp >= mEnabledTime) {
-					*data++ = mPendingEvent;
-					numEventReceived++;
-				}
-				count--;
+			switch ( event->code ){
+				case SYN_TIME_SEC:
+					{
+						mUseAbsTimeStamp = true;
+						report_time = event->value*1000000000LL;
+					}
+				break;
+				case SYN_TIME_NSEC:
+					{
+						mUseAbsTimeStamp = true;
+						mPendingEvent.timestamp = report_time+event->value;
+					}
+				break;
+				case SYN_REPORT:
+					{
+						if(mUseAbsTimeStamp != true) {
+							mPendingEvent.timestamp = timevalToNano(event->time);
+						}
+						if (mEnabled) {
+							if(mPendingEvent.timestamp >= mEnabledTime) {
+								*data++ = mPendingEvent;
+								numEventReceived++;
+							}
+							count--;
+						}
+					}
+				break;
 			}
 		} else {
 			ALOGE("GyroSensor: unknown event (type=%d, code=%d)",

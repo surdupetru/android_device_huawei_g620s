@@ -1,6 +1,5 @@
-ifneq ($(filter msm8960 msm8610 msm8916,$(TARGET_BOARD_PLATFORM)),)
+ifneq ($(filter msm8960 msm8610 msm8916 msm8909,$(TARGET_BOARD_PLATFORM)),)
 # Disable temporarily for compilling error
-ifneq ($(strip $(TARGET_PRODUCT)),msm8916_64)
 ifneq ($(BUILD_TINY_ANDROID),true)
 LOCAL_PATH := $(call my-dir)
 
@@ -11,7 +10,7 @@ ifneq ($(filter msm8610,$(TARGET_BOARD_PLATFORM)),)
   LOCAL_MODULE := sensors.$(TARGET_BOARD_PLATFORM)
   LOCAL_CFLAGS := -DTARGET_8610
 else
-  ifneq ($(filter msm8916,$(TARGET_BOARD_PLATFORM)),)
+  ifneq ($(filter msm8916 msm8909,$(TARGET_BOARD_PLATFORM)),)
     LOCAL_MODULE := sensors.$(TARGET_BOARD_PLATFORM)
   else
     LOCAL_MODULE := sensors.msm8930
@@ -27,6 +26,9 @@ ifeq ($(call is-board-platform,msm8960),true)
   LOCAL_CFLAGS += -DTARGET_8930
 endif
 
+LOCAL_C_INCLUDES := $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include
+LOCAL_ADDITIONAL_DEPENDENCIES := $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr
+
 LOCAL_SRC_FILES :=	\
 		sensors.cpp 			\
 		SensorBase.cpp			\
@@ -37,24 +39,31 @@ LOCAL_SRC_FILES :=	\
 		Gyroscope.cpp				\
 		Bmp180.cpp				\
 		InputEventReader.cpp \
-		CalibrationManager.cpp
+		CalibrationManager.cpp \
+		NativeSensorManager.cpp \
+		VirtualSensor.cpp	\
+		sensors_XML.cpp
 
-LOCAL_SHARED_LIBRARIES := liblog libcutils libdl
+LOCAL_C_INCLUDES += external/libxml2/include	\
+		    external/icu/icu4c/source/common
+
+LOCAL_SHARED_LIBRARIES := liblog libcutils libdl libxml2 libutils
 
 include $(BUILD_SHARED_LIBRARY)
 
 include $(CLEAR_VARS)
 
-LOCAL_MODULE := libcalmodule_akm
+LOCAL_MODULE := libcalmodule_common
 LOCAL_SRC_FILES := \
-		   algo/akm/akm_wrapper.c \
-		   algo/akm/AKFS_AOC.c \
-		   algo/akm/AKFS_Device.c \
-		   algo/akm/AKFS_Direction.c \
-		   algo/akm/AKFS_VNorm.c
+		   algo/common/common_wrapper.c \
+		   algo/common/compass/AKFS_AOC.c \
+		   algo/common/compass/AKFS_Device.c \
+		   algo/common/compass/AKFS_Direction.c \
+		   algo/common/compass/AKFS_VNorm.c
 
 LOCAL_SHARED_LIBRARIES := liblog libcutils
 LOCAL_MODULE_TAGS := optional
+
 LOCAL_MODULE_PATH := $(TARGET_OUT_VENDOR_SHARED_LIBRARIES)
 
 include $(BUILD_SHARED_LIBRARY)
@@ -70,5 +79,4 @@ LOCAL_SRC_FILES := calmodule.cfg
 include $(BUILD_PREBUILT)
 
 endif #BUILD_TINY_ANDROID
-endif #TARGET_PRODUCT
 endif #TARGET_BOARD_PLATFORM

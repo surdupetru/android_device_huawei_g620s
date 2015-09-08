@@ -27,45 +27,25 @@ OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 --------------------------------------------------------------------------*/
 
-#ifndef _SENSOR_CALIBRATION_MANAGER_H
-#define _SENSOR_CALIBRATION_MANAGER_H
+#ifndef SENSOR_XML_H
+#define SENSOR_XML_H
 
+#include <sensors_extension.h>
+#include <libxml/parser.h>
+#include <libxml/tree.h>
 #include <utils/Singleton.h>
-#include "CalibrationModule.h"
 
 using namespace android;
 
-#define MAX_CAL_LIBS	32
-#define MAX_CAL_CFG_LEN	1024
-
-/* Calibration library config files */
-#define CAL_LIB_CFG_PATH	"/system/vendor/etc/calmodule.cfg"
-#define DEFAULT_CAL_LIB		"libcalmodule_common.so"
-#if defined(__LP64__)
-#define CAL_LIB_PATH	"/system/vendor/lib64/"
-#else
-#define CAL_LIB_PATH	"/system/vendor/lib/"
-#endif
-
-class CalibrationManager : public Singleton<CalibrationManager> {
-	public:
-		/* Get the whole algo list provided by the calibration library */
-		const sensor_cal_algo_t** getCalAlgoList();
-		/* Retrive a compatible calibration algo for sensor specified by t */
-		const sensor_cal_algo_t* getCalAlgo(const sensor_t *s);
-		/* Dump the calibration manager status */
-		void dump();
-		~CalibrationManager();
-	private:
-		friend class Singleton<CalibrationManager>;
-		/* Check if the algo provided by list is compatible */
-		static int check_algo(const sensor_cal_algo_t *list);
-		CalibrationManager();
-		void loadCalLibs();
-		/* Point to a whole list of all the algo provided by calibration library */
-		const sensor_cal_algo_t **algo_list;
-		/* Number of algo */
-		uint32_t algo_count;
+class sensors_XML : public Singleton<sensors_XML> {
+    friend class Singleton<sensors_XML>;
+    xmlDocPtr mdoc;
+public:
+    int read_sensors_params(struct sensor_t *sensor, struct cal_result_t *cal_result);
+    int write_sensors_params(struct sensor_t *sensor, struct cal_result_t *cal_result);
+    sensors_XML();
+    int sensors_calibrate_reset();
+    int sensors_rm_file();
 };
 
 #endif

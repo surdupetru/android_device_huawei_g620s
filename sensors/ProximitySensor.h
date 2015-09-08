@@ -24,6 +24,7 @@
 
 #include "SensorBase.h"
 #include "InputEventReader.h"
+#include "NativeSensorManager.h"
 
 /*****************************************************************************/
 
@@ -37,6 +38,9 @@ class ProximitySensor : public SensorBase {
     char input_sysfs_path[PATH_MAX];
     int input_sysfs_path_len;
     int sensor_index;
+    int mThreshold_h;
+    int mThreshold_l;
+    int mBias;
 
     int setInitialState();
     float indexToValue(size_t index) const;
@@ -44,10 +48,14 @@ class ProximitySensor : public SensorBase {
 public:
 	ProximitySensor();
 	ProximitySensor(char *name);
+	ProximitySensor(struct SensorContext *context);
     virtual ~ProximitySensor();
     virtual int readEvents(sensors_event_t* data, int count);
     virtual bool hasPendingEvents() const;
     virtual int enable(int32_t handle, int enabled);
+    virtual int calibrate(int32_t handle, struct cal_cmd_t *para,
+                                 struct cal_result_t *cal_result);
+    virtual int initCalibrate(int32_t handle, struct cal_result_t *cal_result);
 };
 
 /*****************************************************************************/
