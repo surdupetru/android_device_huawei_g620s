@@ -248,7 +248,6 @@ PRODUCT_PACKAGES += \
     init.qcom.modem_links.sh \
     init.qcom.post_boot.sh \
     init.qcom.sdio.sh \
-    init.qcom.uicc.sh \
     init.qcom.wifi.sh \
     init.qcom.zram.sh \
     init.qti.ims.sh \
