@@ -21,8 +21,6 @@
 
 LOCAL_PATH := device/huawei/g620s
 
-TARGET_SPECIFIC_HEADER_PATH := $(LOCAL_PATH)/include
-
 # inherit from the proprietary version
 
 TARGET_NO_RADIOIMAGE := true
