@@ -217,11 +217,6 @@ PRODUCT_PACKAGES += \
 
 # Ramdisk
 PRODUCT_PACKAGES += \
-    rmt_oeminfo \
-    rmt_storage \
-    test_diag
-
-PRODUCT_PACKAGES += \
     fstab.qcom \
     init.class_main.sh \
     init.mdm.sh \

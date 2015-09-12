@@ -499,20 +499,6 @@ service irsc_util /system/bin/logwrapper /system/bin/irsc_util "/etc/sec_config"
     user root
     oneshot
 
-service location_mq /system/bin/location-mq
-    class late_start
-    user gps
-    group gps
-    disabled
-
-service rmt_storage /sbin/rmt_storage
-    class core
-    user root
-    disabled
-
-on property:ro.boot.emmc=true
-    start rmt_storage
-
 service rfs_access /system/bin/rfs_access
    class core
    user system
@@ -872,24 +858,6 @@ service ril-daemon2 /system/bin/rild -c 2
     disabled
     group radio cache inet misc audio sdcard_r sdcard_rw diag qcom_diag log
 
-#service usb_uicc_enable /system/bin/sh /system/etc/init.qcom.uicc.sh
-#    class late_start
-#    user root
-#    disabled
-#    oneshot
-
-#service usb_uicc_daemon /system/bin/usb_uicc_client
-#    class main
-#    user system
-#    group system log net_raw
-#    oneshot
-
-#on property:usb_uicc.enabled=1
-#    start usb_uicc_enable
-
-#on property:usb_uicc.enabled=0
-#    start usb_uicc_enable
-
 service profiler_daemon /system/bin/profiler_daemon
     class late_start
     user root
@@ -983,16 +951,20 @@ service diag_mdlog_stop /system/bin/diag_mdlog -k
 service qlogd /system/xbin/qlogd
     class main
     disabled
+
 on property:persist.sys.qlogd=1
     start qlogd
+
 on property:persist.sys.qlogd=0
     stop qlogd
 
 service rootagent /system/bin/sh /system/etc/init.qcom.rootagent.sh
     disabled
     oneshot
+
 on property:persist.sys.rootagent=1
     start rootagent
+
 on property:persist.sys.rootagent=0
     stop rootagent
 
@@ -1001,16 +973,43 @@ service vm_bms /system/bin/vm_bms
     group root
     disabled
 
-# Huawei service
-#/*<DTS2014041105767 yedapeng 20140401 begin */
-service rmt_oeminfo /sbin/rmt_oeminfo
+service gps_check /system/bin/gps_check
+    class main
+    user root
+    group root
+    oneshot
+
+service oeminfo_server /system/bin/oeminfo_server
     class core
     user root
-#/*DTS2014041105767 yedapeng 20140401 end>*/
+
+# Huawei service
+
+service rmt_oeminfo /system/bin/rmt_oeminfo
+    class core
+    user root
 
 service test_diag /sbin/test_diag
     user root
-    disabled
+
+service rmt_storage /system/bin/rmt_storage
+    class core
+    user root
+
+on property:ro.boot.emmc=true
+    start rmt_storage
+
+on property:hw.accel.calib="true"
+    chmod 0664 /dev/input/event0
+    chmod 0664 /dev/input/event1
+    chmod 0664 /dev/input/event2
+    chmod 0664 /dev/input/event3
+    chmod 0664 /dev/input/event4
+    chmod 0664 /dev/input/event5
+    chmod 0664 /dev/input/event6
+    chmod 0664 /dev/input/event7
+    chmod 0664 /dev/input/event8
+    chmod 0664 /dev/input/event9
 
 # CM Performance Profiles
 on property:sys.perf.profile=0
@@ -1046,7 +1045,6 @@ on property:sys.perf.profile=1
 
     write /sys/class/devfreq/1c00000.qcom,kgsl-3d0/governor "msm-adreno-tz"
     write /sys/class/devfreq/qcom,cpubw.29/governor "cpufreq"
-
 
 on property:sys.perf.profile=2
     write /sys/devices/system/cpu/cpu1/online 1
