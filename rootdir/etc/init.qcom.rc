@@ -989,7 +989,7 @@ service rmt_oeminfo /system/bin/rmt_oeminfo
     class core
     user root
 
-service test_diag /sbin/test_diag
+service test_diag /system/bin/test_diag
     user root
 
 service rmt_storage /system/bin/rmt_storage
