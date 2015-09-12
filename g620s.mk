@@ -143,12 +143,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     lights.msm8916
 
-# Sensors
-PRODUCT_PACKAGES += \
-    sensors.msm8916 \
-    libcalmodule_common \
-    calmodule.cfg
-
 # Charger
 PRODUCT_PACKAGES += \
     charger_res_images
