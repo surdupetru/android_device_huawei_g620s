@@ -250,7 +250,6 @@ PRODUCT_PACKAGES += \
     init.qcom.sdio.sh \
     init.qcom.wifi.sh \
     init.qcom.zram.sh \
-    init.qti.ims.sh \
     qca6234-service.sh \
     vold.fstab
 
