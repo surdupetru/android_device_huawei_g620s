@@ -58,9 +58,9 @@
     <ctl name="IIR1 INP2 Volume" value="84" />
     <ctl name="IIR1 INP3 Volume" value="84" />
     <ctl name="IIR1 INP4 Volume" value="84" />
-    <ctl name="ADC1 Volume" value="13" />
-    <ctl name="ADC2 Volume" value="13" />
-    <ctl name="ADC3 Volume" value="13" />
+    <ctl name="ADC1 Volume" value="15" />
+    <ctl name="ADC2 Volume" value="15" />
+    <ctl name="ADC3 Volume" value="15" />
     <ctl name="DEC1 Volume" value="84" />
     <ctl name="DEC2 Volume" value="84" />
     <ctl name="DEC2 MUX" value="ZERO" />
@@ -568,7 +568,7 @@
     <path name="speaker-mic">
         <path name="adc1" />
         <ctl name="IIR1 INP1 MUX" value="DEC1" />
-        <ctl name="ADC1 Volume" value="6" />
+        <ctl name="ADC1 Volume" value="15" />
         <ctl name="DEC1 Volume" value="84" />
     </path>
 
@@ -583,7 +583,7 @@
 
     <path name="handset-mic">
         <path name="adc1" />
-        <ctl name="ADC1 Volume" value="6" />
+        <ctl name="ADC1 Volume" value="15" />
         <ctl name="DEC1 Volume" value="84" />
     </path>
 
@@ -603,7 +603,7 @@
         <ctl name="MICBIAS CAPLESS Switch" value="1" />
         <ctl name="ADC2 MUX" value="INP2" />
         <ctl name="IIR1 INP1 MUX" value="DEC1" />
-        <ctl name="ADC2 Volume" value="6" />
+        <ctl name="ADC2 Volume" value="15" />
         <ctl name="DEC2 Volume" value="84" />
     </path>
 
@@ -642,7 +642,7 @@
 
     <path name="voice-speaker-mic">
         <path name="speaker-mic" />
-        <ctl name="ADC1 Volume" value="6" />
+        <ctl name="ADC1 Volume" value="15" />
         <ctl name="DEC1 Volume" value="84" />
     </path>
 
@@ -654,7 +654,7 @@
 
     <path name="voice-headset-mic">
         <path name="headset-mic" />
-        <ctl name="ADC2 Volume" value="6" />
+        <ctl name="ADC2 Volume" value="15" />
         <ctl name="DEC2 Volume" value="84" />
     </path>
 
@@ -712,16 +712,16 @@
         <ctl name="DEC2 MUX" value="ADC2" />
         <ctl name="MI2S_TX Channels" value="Two" />
         <ctl name="ADC2 MUX" value="INP3" />
-	<ctl name="ADC1 Volume" value="6" />
-	<ctl name="ADC3 Volume" value="6" />
+	<ctl name="ADC1 Volume" value="15" />
+	<ctl name="ADC3 Volume" value="15" />
 	<ctl name="DEC1 Volume" value="84" />
 	<ctl name="DEC2 Volume" value="84" />
     </path>
 
     <path name="dmic-endfire">
         <path name="speaker-dmic-endfire" />
-        <ctl name="ADC1 Volume" value="6" />
-	<ctl name="ADC3 Volume" value="6" />
+        <ctl name="ADC1 Volume" value="15" />
+	<ctl name="ADC3 Volume" value="15" />
 	<ctl name="DEC1 Volume" value="84" />
 	<ctl name="DEC2 Volume" value="84" />
     </path>
@@ -732,8 +732,8 @@
 
     <path name="voice-dmic-ef">
         <path name="dmic-endfire" />
-        <ctl name="ADC1 Volume" value="6" />
-	<ctl name="ADC3 Volume" value="6" />
+        <ctl name="ADC1 Volume" value="15" />
+	<ctl name="ADC3 Volume" value="15" />
 	<ctl name="DEC1 Volume" value="84" />
 	<ctl name="DEC2 Volume" value="84" />
     </path>
@@ -819,7 +819,7 @@
 
     <path name="voice-tty-vco-handset-mic">
         <path name="adc1" />
-	<ctl name="ADC1 Volume" value="6" />
+	<ctl name="ADC1 Volume" value="15" />
 	<ctl name="DEC1 Volume" value="84" />
     </path>
 
