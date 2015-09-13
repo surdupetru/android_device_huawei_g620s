@@ -887,6 +887,8 @@ service hcidump /system/bin/sh /system/etc/hcidump.sh
 
 service charger /charger
     class charger
+    group log
+    seclabel u:r:healthd:s0
 
 service ssr_diag /system/bin/ssr_diag
     class late_start
@@ -990,6 +992,7 @@ service rmt_oeminfo /system/bin/rmt_oeminfo
 
 service test_diag /system/bin/test_diag
     user root
+    seclabel u:r:diag:s0
 
 service rmt_storage /system/bin/rmt_storage
     class core

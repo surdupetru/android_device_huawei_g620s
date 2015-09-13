@@ -168,8 +168,12 @@ BOARD_SEPOLICY_DIRS += \
     device/huawei/g620s/sepolicy
 
 BOARD_SEPOLICY_UNION += \
+    bootanim.te \
+    diag.te \
     file.te \
     file_contexts \
+    init.te \
+    mm-qcamerad.te \
     netd.te \
     system_server.te
 
