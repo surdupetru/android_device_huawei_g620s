@@ -119,7 +119,7 @@ void init_msm_properties(unsigned long msm_id, unsigned long msm_ver, char *boar
         property_set("ro.product.name", "G620S-L01");
         property_set("ro.product.device", "G620S-L01");
         property_set("ro.build.product", "G620S-L01");
-        property_set("ro.telephony.default_network", "9");
+        property_set("ro.telephony.default_network", "7");
         property_set("ro.build.description", "G620S-L01-user 4.4.4 GRJ90 C00B380 release-keys");
         property_set("ro.build.fingerprint", "Huawei/G620S-L01/hwG620S-L01:4.4.4/HuaweiG620S-L01/C00B380:user/release-keys");
     }
