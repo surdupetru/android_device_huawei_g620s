@@ -44,19 +44,7 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/prebuilts/audio_policy.conf:system/etc/audio_policy.conf \
     $(LOCAL_PATH)/prebuilts/audio_effects.conf:system/vendor/etc/audio_effects.conf \
-    $(LOCAL_PATH)/prebuilts/mixer_paths_mtp.xml:system/etc/mixer_paths_mtp.xml \
-    $(LOCAL_PATH)/prebuilts/mixer_paths_sbc.xml:system/etc/mixer_paths_sbc.xml \
-    $(LOCAL_PATH)/prebuilts/mixer_paths_qrd_skuh.xml:system/etc/mixer_paths_qrd_skuh.xml \
-    $(LOCAL_PATH)/prebuilts/mixer_paths_qrd_skui.xml:system/etc/mixer_paths_qrd_skui.xml \
-    $(LOCAL_PATH)/prebuilts/mixer_paths_qrd_skuhf.xml:system/etc/mixer_paths_qrd_skuhf.xml \
-    $(LOCAL_PATH)/prebuilts/mixer_paths_wcd9306.xml:system/etc/mixer_paths_wcd9306.xml \
-    $(LOCAL_PATH)/prebuilts/mixer_paths_skuk.xml:system/etc/mixer_paths_skuk.xml \
-    $(LOCAL_PATH)/prebuilts/mixer_paths_skul.xml:system/etc/mixer_paths_skul.xml \
-    $(LOCAL_PATH)/prebuilts/mixer_paths.xml:system/etc/mixer_paths.xml \
-    $(LOCAL_PATH)/prebuilts/sound_trigger_mixer_paths.xml:system/etc/sound_trigger_mixer_paths.xml \
-    $(LOCAL_PATH)/prebuilts/sound_trigger_mixer_paths_wcd9306.xml:system/etc/sound_trigger_mixer_paths_wcd9306.xml \
-    $(LOCAL_PATH)/prebuilts/sound_trigger_platform_info.xml:system/etc/sound_trigger_platform_info.xml \
-    $(LOCAL_PATH)/prebuilts/mixer_paths_wcd9330.xml:system/etc/mixer_paths_wcd9330.xml
+    $(LOCAL_PATH)/prebuilts/mixer_paths.xml:system/etc/mixer_paths.xml
 
 # Feature definition files for msm8916
 PRODUCT_COPY_FILES += \
