@@ -66,12 +66,6 @@ on init
 
    write /sys/module/qpnp_rtc/parameters/poweron_alarm 1
 
-# Create cgroup mount point for freezer
-    mkdir /dev/frz
-    mount cgroup none /dev/frz freezer
-
-    chown system system /sys/module/mdss_dsi/parameters/dsi_status_disable
-
 on early-boot
     # set RLIMIT_MEMLOCK to 64MB
     setrlimit 8 67108864 67108864
@@ -185,33 +179,16 @@ on boot
 
 #   Define TCP buffer sizes for various networks
 #   ReadMin, ReadInitial, ReadMax, WriteMin, WriteInitial, WriteMax,
-    setprop net.tcp.buffersize.default 131072,262144,1048576,4096,16384,262144
-    setprop net.tcp.buffersize.wifi 131072,262144,3145728,4096,221184,3145728
-    setprop net.tcp.buffersize.umts 131072,262144,1452032,4096,16384,399360
-    setprop net.tcp.buffersize.edge 16384,32768,131072,4096,16384,65536
-    setprop net.tcp.buffersize.gprs 4096,8192,24576,4096,8192,24576
-    setprop net.tcp.buffersize.hspa 131072,262144,2441216,4096,16384,399360
-    setprop net.tcp.buffersize.hsdpa 131072,262144,2441216,4096,16384,399360
-    setprop net.tcp.buffersize.hsupa 131072,262144,2441216,4096,16384,399360
-    setprop net.tcp.buffersize.hspap 131072,262144,2441216,4096,16384,399360
-    setprop net.tcp.buffersize.cdma  4096,12288,49152,4096,12288,49152
-    setprop net.tcp.buffersize.1xrtt 16384,32768,131072,4096,16384,102400
-    setprop net.tcp.buffersize.evdo  16384,32768,131072,4096,16384,102400
-    setprop net.tcp.buffersize.evdo_b 131072,262144,1048576,4096,16384,524288
-    setprop net.tcp.buffersize.ehrpd  131072,262144,1048576,4096,16384,524288
-    setprop net.tcp.buffersize.lte 524288,1048576,8388608,262144,524288,4194304
-    setprop net.tcp.buffersize.2ghotspot 4096,16384,65536,16384,32768,131072
-    setprop net.tcp.buffersize.2ghotspot2 4096,16384,102400,16384,32768,131072
-    setprop net.tcp.buffersize.3ghotspot 4096,16384,399360,131072,262144,2441216
-    setprop net.tcp.buffersize.3ghotspot2 4096,16384,524288,131072,262144,1048576
-    setprop net.tcp.buffersize.4ghotspot 262144,524288,4194304,524288,1048576,8388608
-
-# Define TCP delayed ack settings for WiFi & LTE
-    setprop net.tcp.delack.default     1
-    setprop net.tcp.delack.lte         8
-    setprop net.tcp.usercfg.default    0
-    setprop net.tcp.usercfg.wifi       1
-    setprop net.tcp.usercfg.lte        1
+    setprop net.tcp.buffersize.default 4096,87380,524288,4096,16384,110208
+    setprop net.tcp.buffersize.lte     2097152,4194304,8388608,262144,524288,1048576
+    setprop net.tcp.buffersize.umts    4094,87380,110208,4096,16384,110208
+    setprop net.tcp.buffersize.hspa    4094,87380,1220608,4096,16384,1220608
+    setprop net.tcp.buffersize.hsupa   4094,87380,1220608,4096,16384,1220608
+    setprop net.tcp.buffersize.hsdpa   4094,87380,1220608,4096,16384,1220608
+    setprop net.tcp.buffersize.hspap   4094,87380,1220608,4096,16384,1220608
+    setprop net.tcp.buffersize.edge    4093,26280,35040,4096,16384,35040
+    setprop net.tcp.buffersize.gprs    4092,8760,11680,4096,8760,11680
+    setprop net.tcp.buffersize.evdo    4094,87380,524288,4096,16384,262144
 
 #   Assign TCP buffer thresholds to be ceiling value of technology maximums
 #   Increased technology maximums should be reflected here.
@@ -255,6 +232,11 @@ on boot
     # Allow access for CCID command/response timeout configuration
     chown system system /sys/module/ccid_bridge/parameters/bulk_msg_timeout
 
+    # Mark the copy complete flag to not completed
+    write /data/misc/radio/copy_complete 0
+    chown radio radio /data/misc/radio/copy_complete
+    chmod 0660 /data/misc/radio/copy_complete
+
     # camera sockets
     mkdir /data/misc/camera 0770 camera camera
 
@@ -275,13 +257,6 @@ on boot
     chmod 0664 /sys/class/leds/green/brightness
     chmod 0664 /sys/class/leds/blue/brightness
     chmod 0664 /sys/class/leds/lcd-backlight/brightness
-
-    # Force all SSR systems to 'related' so they attempt self-recovery without
-    # rebooting the device
-    write /sys/bus/msm_subsys/devices/subsys0/restart_level related
-    write /sys/bus/msm_subsys/devices/subsys1/restart_level related
-    write /sys/bus/msm_subsys/devices/subsys2/restart_level related
-    write /sys/bus/msm_subsys/devices/subsys3/restart_level related
 
 on post-fs-data
     # Create directory for TZ Apps
@@ -417,6 +392,11 @@ on property:sys.boot_completed=1
 on property:persist.radio.atfwd.start=false
     stop atfwd
 
+service qcom-debug /system/bin/sh /system/etc/init.qcom.debug.sh
+    class core
+    user root
+    oneshot
+
 # corefile limit and ETB enabling
 on property:persist.debug.trace=1
     mkdir /data/core 0777 root root
@@ -437,9 +417,6 @@ on property:persist.debug.trace=1
     write /sys/bus/coresight/devices/coresight-etm2/enable 1
     write /sys/bus/coresight/devices/coresight-etm3/enable 1
     write /sys/module/coresight_event/parameters/event_abort_enable 1
-
-on property:ro.board.platform=msm7630_fusion
-    start usbhub_init
 
 on property:init.svc.wpa_supplicant=stopped
     stop dhcpcd
