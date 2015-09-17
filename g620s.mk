@@ -94,10 +94,6 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/wifi/WCNSS_cfg.dat:system/etc/firmware/wlan/prima/WCNSS_cfg.dat \
     $(LOCAL_PATH)/wifi/WCNSS_qcom_wlan_nv.bin:system/etc/firmware/wlan/prima/WCNSS_qcom_wlan_nv.bin
 
-# Boot animation
-TARGET_SCREEN_HEIGHT := 1280
-TARGET_SCREEN_WIDTH := 720
-
 # Screen density
 PRODUCT_AAPT_CONFIG := normal
 PRODUCT_AAPT_PREF_CONFIG := xhdpi
@@ -108,10 +104,6 @@ PRODUCT_PACKAGES += \
     libantradio \
     antradio_app \
     com.dsi.ant.antradio_library
-
-# APPOPS_POLICY
-PRODUCT_PACKAGES += \
-    appops_policy.xml
 
 # Audio
 PRODUCT_PACKAGES += \
@@ -142,13 +134,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     libcnefeatureconfig
 
-# CRDA
-PRODUCT_PACKAGES += \
-    crda \
-    regdbdump \
-    regulatory.bin \
-    linville.key.pub.pem
-
 # Filesystem management tools
 PRODUCT_PACKAGES += \
     make_ext4fs \
@@ -176,9 +161,6 @@ PRODUCT_PACKAGES += \
 
 # Live Wallpapers
 PRODUCT_PACKAGES += \
-    LiveWallpapers \
-    LiveWallpapersPicker \
-    VisualizationWallpapers \
     librs_jni
 
 # KEYPAD
@@ -214,10 +196,9 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     fstab.qcom \
     init.class_main.sh \
-    init.mdm.sh \
+    init.qcom.bms.sh \
     init.qcom.class_core.sh \
     init.qcom.early_boot.sh \
-    init.qcom.factory.sh \
     init.qcom.power.rc \
     init.qcom.rc \
     init.qcom.sh \
@@ -225,37 +206,21 @@ PRODUCT_PACKAGES += \
     init.qcom.syspart_fixup.sh \
     init.qcom.usb.rc \
     init.qcom.usb.sh \
-    init.qti.carrier.rc \
     init.target.rc \
     ueventd.qcom.rc
 
 # Etc
 PRODUCT_PACKAGES += \
-    hcidump.sh \
-    hsic.control.bt.sh \
-    init.ath3k.bt.sh \
-    init.crda.sh \
-    init.qcom.audio.sh \
     init.qcom.bt.sh \
-    init.qcom.coex.sh \
-    init.qcom.debug.sh \
-    init.qcom.efs.sync.sh \
-    init.qcom.modem_links.sh \
     init.qcom.post_boot.sh \
-    init.qcom.sdio.sh \
     init.qcom.wifi.sh \
     init.qcom.zram.sh \
-    qca6234-service.sh \
     vold.fstab
 
 # Misc
 PRODUCT_PACKAGES += \
     libbson \
     libxml2
-
-# Stk
-PRODUCT_PACKAGES += \
-    Stk
 
 # USB
 PRODUCT_PACKAGES += \

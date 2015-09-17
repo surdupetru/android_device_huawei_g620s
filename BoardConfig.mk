@@ -70,7 +70,7 @@ BOARD_USES_LEGACY_MMAP := true
 TARGET_USE_VENDOR_CAMERA_EXT := true
 
 # CMHW
-BOARD_HARDWARE_CLASS := $(LOCAL_PATH)/cmhw
+BOARD_HARDWARE_CLASS := device/huawei/g620s/cmhw
 
 # Enables CSVT
 TARGET_USES_CSVT := true
@@ -157,7 +157,7 @@ TARGET_PROVIDES_LIBLIGHT := true
 TARGET_USES_LOGD := false
 
 # RIL
-#TARGET_RIL_VARIANT := caf
+TARGET_RIL_VARIANT := caf
 PROTOBUF_SUPPORTED := true
 
 # FM
@@ -177,6 +177,7 @@ BOARD_SEPOLICY_UNION += \
     file_contexts \
     init.te \
     mm-qcamerad.te \
+    mpdecision.te \
     netd.te \
     system_server.te
 

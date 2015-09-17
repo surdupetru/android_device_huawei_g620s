@@ -14,6 +14,10 @@
 
 $(call inherit-product, device/huawei/g620s/full_g620s.mk)
 
+# Boot animation
+TARGET_SCREEN_HEIGHT := 1280
+TARGET_SCREEN_WIDTH := 720
+
 # Inherit some common CM stuff.
 $(call inherit-product, vendor/cm/config/common_full_phone.mk)
 

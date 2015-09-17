@@ -153,6 +153,8 @@ on boot
     mkdir /dev/socket/qmux_gps 0770 gps gps
     chmod 2770 /dev/socket/qmux_gps
 
+    chown radio radio /sys/devices/virtual/hsicctl/hsicctl0/modem_wait
+
     setprop wifi.interface wlan0
 
 #   Define TCP buffer sizes for various networks
@@ -169,6 +171,19 @@ on boot
     chmod 0755 /system/bin/ip
 
     chmod 0444 /sys/devices/platform/msm_hsusb/gadget/usb_state
+
+    # setup permissions for fb1 related nodes
+    chown system graphics /sys/class/graphics/fb1/hpd
+    chmod 0664 /sys/devices/virtual/graphics/fb1/hpd
+
+    chown system system /sys/class/graphics/fb1/hdcp/tp
+    chmod 0664 /sys/devices/virtual/graphics/fb1/hdcp/tp
+
+    chmod 0664 /sys/devices/virtual/graphics/fb1/video_mode
+    chmod 0664 /sys/devices/virtual/graphics/fb1/format_3d
+
+    # Change owner and group for media server and surface flinger
+    chown system system /sys/devices/virtual/graphics/fb1/format_3d
 
     #For bridgemgr daemon to inform the USB driver of the correct transport
     chown radio radio /sys/class/android_usb/f_rmnet_smd_sdio/transport
@@ -391,11 +406,6 @@ on property:sys.boot_completed=1
 
 on property:persist.radio.atfwd.start=false
     stop atfwd
-
-service qcom-debug /system/bin/sh /system/etc/init.qcom.debug.sh
-    class core
-    user root
-    oneshot
 
 # corefile limit and ETB enabling
 on property:persist.debug.trace=1
@@ -990,3 +1000,21 @@ on property:hw.accel.calib="true"
     chmod 0664 /dev/input/event7
     chmod 0664 /dev/input/event8
     chmod 0664 /dev/input/event9
+
+    setprop persist.sys.wfd.virtual 0
+    setprop system_init.startsurfaceflinger 0
+
+# Start the following services needed for fftm
+    start config_bluetooth
+    start media
+    start fastmmi
+    start adbd
+    start qcom-post-boot
+    start rmt_storage
+    start qcom-c_main-sh
+    start irsc_util
+    start qcamerasvr
+    start qcom-usb-sh
+    start qcomsysd
+    start ptt_ffbm
+    start ftm_ffbm
