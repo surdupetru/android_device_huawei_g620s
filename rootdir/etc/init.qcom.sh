@@ -57,11 +57,11 @@ start_battery_monitor()
 		chown -h root.system /sys/bus/spmi/devices/qpnp-bms-*/fcc_data
 		chown -h root.system /sys/bus/spmi/devices/qpnp-bms-*/fcc_temp
 		chown -h root.system /sys/bus/spmi/devices/qpnp-bms-*/fcc_chgcyl
-		chmod -h 0660 /sys/module/qpnp_bms/parameters/*
-		chmod -h 0660 /sys/module/pm8921_bms/parameters/*
+		chmod 0660 /sys/module/qpnp_bms/parameters/*
+		chmod 0660 /sys/module/pm8921_bms/parameters/*
 		mkdir -p /data/bms
 		chown -h root.system /data/bms
-		chmod -h 0770 /data/bms
+		chmod 0770 /data/bms
 		start battery_monitor
 	fi
 }
@@ -74,45 +74,33 @@ start_charger_monitor()
 		chown -h root.system /sys/class/power_supply/battery/input_current_trim
 		chown -h root.system /sys/class/power_supply/battery/input_current_settled
 		chown -h root.system /sys/class/power_supply/battery/voltage_min
-		chmod -h 0664 /sys/class/power_supply/battery/input_current_max
-		chmod -h 0664 /sys/class/power_supply/battery/input_current_trim
-		chmod -h 0664 /sys/class/power_supply/battery/input_current_settled
-		chmod -h 0664 /sys/class/power_supply/battery/voltage_min
-		chmod -h 0664 /sys/module/qpnp_charger/parameters/charger_monitor
+		chmod 0664 /sys/class/power_supply/battery/input_current_max
+		chmod 0664 /sys/class/power_supply/battery/input_current_trim
+		chmod 0664 /sys/class/power_supply/battery/input_current_settled
+		chmod 0664 /sys/class/power_supply/battery/voltage_min
+		chmod 0664 /sys/module/qpnp_charger/parameters/charger_monitor
 		start charger_monitor
 	fi
 }
 
-start_vm_bms()
+start_msm_irqbalance_8939()
 {
-	if [ -e /dev/vm_bms ]; then
-		chown -h root.system /sys/class/power_supply/bms/current_now
-		chown -h root.system /sys/class/power_supply/bms/voltage_ocv
-		chmod -h 0664 /sys/class/power_supply/bms/current_now
-		chmod -h 0664 /sys/class/power_supply/bms/voltage_ocv
-		start vm_bms
+	if [ -f /system/bin/msm_irqbalance ]; then
+		case "$platformid" in
+		    "239" | "241" | "263" | "268" | "269" | "270" | "271")
+			start msm_irqbalance;;
+		esac
 	fi
 }
 
 start_msm_irqbalance()
 {
 	if [ -f /system/bin/msm_irqbalance ]; then
-		case "$platformid" in
-		    "239")
-			start msm_irqbalance;;
-		esac
+		start msm_irqbalance
 	fi
 }
 
 baseband=`getprop ro.baseband`
-#
-# Suppress default route installation during RA for IPV6; user space will take
-# care of this
-# exception default ifc
-for file in /proc/sys/net/ipv6/conf/*
-do
-  echo 0 > $file/accept_ra_defrtr
-done
 echo 1 > /proc/sys/net/ipv6/conf/default/accept_ra_defrtr
 
 case "$baseband" in
@@ -195,7 +183,64 @@ case "$target" in
         start_charger_monitor
         ;;
     "msm8916")
-        start_vm_bms
+        start_msm_irqbalance_8939
+        if [ -f /sys/devices/soc0/soc_id ]; then
+            soc_id=`cat /sys/devices/soc0/soc_id`
+        else
+            soc_id=`cat /sys/devices/system/soc/soc0/id`
+        fi
+
+        if [ -f /sys/devices/soc0/platform_subtype_id ]; then
+             platform_subtype_id=`cat /sys/devices/soc0/platform_subtype_id`
+        fi
+        if [ -f /sys/devices/soc0/hw_platform ]; then
+             hw_platform=`cat /sys/devices/soc0/hw_platform`
+        fi
+        case "$soc_id" in
+             "239")
+                  case "$hw_platform" in
+                       "Surf")
+                            case "$platform_subtype_id" in
+                                 "1" | "2")
+                                      setprop qemu.hw.mainkeys 0
+                                      ;;
+                            esac
+                            ;;
+                       "MTP")
+                            case "$platform_subtype_id" in
+                                 "3")
+                                      setprop qemu.hw.mainkeys 0
+                                      ;;
+                            esac
+                            ;;
+                  esac
+                  ;;
+        esac
+        ;;
+    "msm8994")
         start_msm_irqbalance
         ;;
+    "msm8909")
+        ;;
 esac
+
+bootmode=`getprop ro.bootmode`
+emmc_boot=`getprop ro.boot.emmc`
+case "$emmc_boot"
+    in "true")
+        if [ "$bootmode" != "charger" ]; then # start rmt_storage and rfs_access
+            start rmt_storage
+            start rfs_access
+        fi
+    ;;
+esac
+
+#
+# Make modem config folder and copy firmware config to that folder
+#
+rm -rf /data/misc/radio/modem_config
+mkdir /data/misc/radio/modem_config
+chmod 770 /data/misc/radio/modem_config
+cp -r /firmware/image/modem_pr/mbn_ota/* /data/misc/radio/modem_config
+chown -hR radio.radio /data/misc/radio/modem_config
+echo 1 > /data/misc/radio/copy_complete

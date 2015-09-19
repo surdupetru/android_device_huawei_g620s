@@ -1,4 +1,2 @@
-# CMHW
-type display_sysfs, fs_type, sysfs_type;
-type vibeamp_sysfs, fs_type, sysfs_type;
 type touchpanel_sysfs, fs_type, sysfs_type;
+type vibeamp_sysfs, sysfs_type, file_type;

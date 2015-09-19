@@ -16,15 +16,10 @@
 #
 # Product-specific compile-time definitions.
 #
-
+# inherit from the proprietary version
 -include vendor/huawei/g620s/BoardConfigVendor.mk
 
 LOCAL_PATH := device/huawei/g620s
-
-# inherit from the proprietary version
-
-TARGET_NO_RADIOIMAGE := true
-TARGET_LDPRELOAD := libNimsWrap.so
 
 # Platform
 TARGET_BOARD_PLATFORM := msm8916
@@ -103,6 +98,7 @@ USE_OPENGL_RENDERER := true
 TARGET_CONTINUOUS_SPLASH_ENABLED := true
 
 # Init
+TARGET_UNIFIED_DEVICE := true
 TARGET_INIT_VENDOR_LIB := libinit_msm
 TARGET_PLATFORM_DEVICE_BASE := /devices/soc.0/
 TARGET_LIBINIT_DEFINES_FILE := $(LOCAL_PATH)/init/init_g620s.c
@@ -114,8 +110,7 @@ ADDITIONAL_DEFAULT_PROPERTIES += ro.allow.mock.location=1
 ADDITIONAL_DEFAULT_PROPERTIES += persist.sys.usb.config=mass_storage
 
 # Kernel
-TARGET_NO_KERNEL := false
-BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 androidboot.console=ttyHSL0 androidboot.hardware=qcom user_debug=30 msm_rtb.filter=0x3F ehci-hcd.park=3 androidboot.bootdevice=7824900.sdhci lpm_levels.sleep_disabled=1 androidboot.selinux=permissive
+BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 androidboot.console=ttyHSL0 androidboot.hardware=qcom user_debug=30 msm_rtb.filter=0x3F ehci-hcd.park=3 androidboot.bootdevice=7824900.sdhci lpm_levels.sleep_disabled=1
 BOARD_KERNEL_SEPARATED_DT := true
 BOARD_KERNEL_BASE        := 0x80000000
 BOARD_KERNEL_PAGESIZE    := 2048
@@ -202,7 +197,6 @@ BOARD_HOSTAPD_PRIVATE_LIB := lib_driver_cmd_qcwcn
 BOARD_WLAN_DEVICE := qcwcn
 BOARD_WPA_SUPPLICANT_DRIVER := NL80211
 BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_qcwcn
-TARGET_USES_QCOM_WCNSS_QMI := true
 TARGET_USES_WCNSS_CTRL := true
 WIFI_DRIVER_FW_PATH_AP := "ap"
 WIFI_DRIVER_FW_PATH_STA := "sta"

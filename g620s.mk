@@ -94,6 +94,10 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/wifi/WCNSS_cfg.dat:system/etc/firmware/wlan/prima/WCNSS_cfg.dat \
     $(LOCAL_PATH)/wifi/WCNSS_qcom_wlan_nv.bin:system/etc/firmware/wlan/prima/WCNSS_qcom_wlan_nv.bin
 
+# MSM IRQ Balancer configuration file
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/prebuilts/msm_irqbalance.conf:system/vendor/etc/msm_irqbalance.conf
+
 # Screen density
 PRODUCT_AAPT_CONFIG := normal
 PRODUCT_AAPT_PREF_CONFIG := xhdpi
@@ -120,7 +124,11 @@ PRODUCT_PACKAGES += \
 
 # Camera
 PRODUCT_PACKAGES += \
-    camera.msm8916
+    camera.msm8916 \
+    mm-qcamera-app \
+    libmmjpeg_interface \
+    libmm-omxcore \
+    libqomx_core
 
 # Lights
 PRODUCT_PACKAGES += \
@@ -206,7 +214,6 @@ PRODUCT_PACKAGES += \
     init.qcom.syspart_fixup.sh \
     init.qcom.usb.rc \
     init.qcom.usb.sh \
-    init.target.rc \
     ueventd.qcom.rc
 
 # Etc
@@ -235,7 +242,6 @@ PRODUCT_PACKAGES += \
     dhcpcd.conf \
     wpa_supplicant \
     wpa_supplicant.conf \
-    libwcnss_qmi \
     wcnss_service
 
 PRODUCT_BOOT_JARS += \
@@ -244,9 +250,6 @@ PRODUCT_BOOT_JARS += \
 # System Properties
 PRODUCT_PROPERTY_OVERRIDES += \
     drm.service.enabled=true
-
-ADDITIONAL_DEFAULT_PROPERTIES += \
-    persist.sys.root_access=1
 
 # Camera shutter sound property
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -265,5 +268,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
     persist.sys.usb.config=mtp \
     camera2.portability.force_api=1
+
+# IO Scheduler
++PRODUCT_PROPERTY_OVERRIDES += \
+    sys.io.scheduler=row
 
 $(call inherit-product, frameworks/native/build/phone-xhdpi-1024-dalvik-heap.mk)
