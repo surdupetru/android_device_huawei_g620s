@@ -247,12 +247,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_BOOT_JARS += \
     qcmediaplayer
 
-# Rmnetctl
-PRODUCT_PACKAGES += \
-    librmnetctl \
-    rmnetcli \
-    sockev
-
 # Sensor HAL
 PRODUCT_PACKAGES += \
     sensors.msm8916 \
