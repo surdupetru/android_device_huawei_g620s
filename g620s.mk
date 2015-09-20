@@ -128,7 +128,6 @@ PRODUCT_PACKAGES += \
     mm-qcamera-app \
     libmmjpeg_interface \
     libmm-omxcore \
-    libmm-qcamera \
     libqomx_core
 
 # Lights
