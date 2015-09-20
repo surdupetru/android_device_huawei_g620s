@@ -128,6 +128,7 @@ PRODUCT_PACKAGES += \
     mm-qcamera-app \
     libmmjpeg_interface \
     libmm-omxcore \
+    libmm-qcamera \
     libqomx_core
 
 # Lights
@@ -246,6 +247,18 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_BOOT_JARS += \
     qcmediaplayer
+
+# Rmnetctl
+PRODUCT_PACKAGES += \
+    librmnetctl \
+    rmnetcli \
+    sockev
+
+# Sensor HAL
+PRODUCT_PACKAGES += \
+    sensors.msm8916 \
+    libcalmodule_common \
+    calmodule.cfg
 
 # System Properties
 PRODUCT_PROPERTY_OVERRIDES += \
