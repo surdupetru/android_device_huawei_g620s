@@ -163,6 +163,12 @@ PRODUCT_PACKAGES += \
     hwcomposer.msm8916 \
     libtinyxml
 
+# IPv6
+PRODUCT_PACKAGES += \
+    ebtables \
+    ethertypes \
+    libebtc
+
 # Keystore
 PRODUCT_PACKAGES += \
     keystore.msm8916
