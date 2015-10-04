@@ -27,10 +27,6 @@
 # IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 #
-vbus_draw=`getprop persist.sys.usb.vbus.draw`
-if [ "$vbus_draw" != "" ]; then
-	echo "${vbus_draw}" > /sys/module/ci13xxx_msm/parameters/vbus_draw_mA
-fi
 chown -h root.system /sys/devices/platform/msm_hsusb/gadget/wakeup
 chmod -h 220 /sys/devices/platform/msm_hsusb/gadget/wakeup
 
@@ -82,7 +78,8 @@ for f in /sys/bus/esoc/devices/*; do
 done
 fi
 
-target=`getprop ro.board.platform`
+target=`getprop ro.product.device`
+target=${target:0:7}
 
 #
 # Allow USB enumeration with default PID/VID
@@ -122,19 +119,13 @@ case "$usb_config" in
               ;;
               *)
 		case "$target" in
-                        "msm8916")
-                            setprop persist.sys.usb.config diag,serial_smd,rmnet_bam,adb
-                        ;;
-                        "msm8994")
-                            setprop persist.sys.usb.config diag,serial_smd,serial_tty,rmnet_ipa,mass_storage,adb
-                        ;;
-                        "msm8909")
-                            setprop persist.sys.usb.config diag,serial_smd,rmnet_qti_bam,adb
-                        ;;
-                        *)
-                            setprop persist.sys.usb.config diag,serial_smd,serial_tty,rmnet_bam,mass_storage,adb
-                        ;;
-                    esac
+			"msm8916")
+				setprop persist.sys.usb.config diag,serial_smd,rmnet_bam,adb
+			;;
+			*)
+				setprop persist.sys.usb.config diag,serial_smd,serial_tty,rmnet_bam,mass_storage,adb
+			;;
+		esac
               ;;
           esac
           ;;
@@ -162,10 +153,6 @@ case "$target" in
                  echo msm_hsic_host > /sys/bus/platform/drivers/msm_hsic_host/unbind
              fi
          fi
-    ;;
-    "msm8994")
-        echo BAM2BAM_IPA > /sys/class/android_usb/android0/f_rndis_qc/rndis_transports
-        echo 1 > /sys/class/android_usb/android0/f_rndis_qc/max_pkt_per_xfer # Disable RNDIS UL aggregation
     ;;
 esac
 
@@ -218,7 +205,7 @@ esac
 cdromname="/system/etc/cdrom_install.iso"
 platformver=`cat /sys/devices/soc0/hw_platform`
 case "$target" in
-	"msm8226" | "msm8610" | "msm8916" | "msm8909")
+	"msm8226" | "msm8610" | "msm8916")
 		case $platformver in
 			"QRD")
 				echo "mounting usbcdrom lun"
@@ -244,13 +231,10 @@ else
 	soc_id=`cat /sys/devices/system/soc/soc0/id`
 fi
 
-# enable rps cpus on msm8939/msm8909/msm8929 target
+# enable rps cpus on msm8939 target
 setprop sys.usb.rps_mask 0
 case "$soc_id" in
-	"239" | "241" | "263" | "268" | "269" | "270")
+	"239" | "241" | "263")
 		setprop sys.usb.rps_mask 10
-	;;
-	"245" | "260" | "261" | "262")
-		setprop sys.usb.rps_mask 2
 	;;
 esac
