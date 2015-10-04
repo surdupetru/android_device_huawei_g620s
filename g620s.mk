@@ -130,10 +130,6 @@ PRODUCT_PACKAGES += \
     libmm-omxcore \
     libqomx_core
 
-# Lights
-PRODUCT_PACKAGES += \
-    lights.msm8916
-
 # Charger
 PRODUCT_PACKAGES += \
     charger_res_images
