@@ -70,6 +70,11 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.software.sip.voip.xml:system/etc/permissions/android.software.sip.voip.xml \
     frameworks/native/data/etc/handheld_core_hardware.xml:system/etc/permissions/handheld_core_hardware.xml
 
+PRODUCT_COPY_FILES += \
+    frameworks/native/data/etc/com.android.nfc_extras.xml:system/etc/permissions/com.android.nfc_extras.xml \
+    frameworks/native/data/etc/com.nxp.mifare.xml:system/etc/permissions/com.nxp.mifare.xml \
+    packages/apps/Nfc/migrate_nfc.txt:system/etc/updatecmds/migrate_nfc.txt
+
 # gps/location secuity configuration file
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/prebuilts/sec_config:system/etc/sec_config
@@ -97,6 +102,9 @@ PRODUCT_COPY_FILES += \
 # MSM IRQ Balancer configuration file
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/prebuilts/msm_irqbalance.conf:system/vendor/etc/msm_irqbalance.conf
+
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/prebuilts/nfc-nci.conf:system/etc/nfc-nci.conf
 
 # Screen density
 PRODUCT_AAPT_CONFIG := normal
@@ -248,6 +256,14 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_BOOT_JARS += \
     qcmediaplayer
+
+# NFC
+PRODUCT_PACKAGES += \
+    Tag
+
+PRODUCT_BOOT_JARS += \
+   com.android.nfc.helper \
+   com.android.qcom.nfc_extras
 
 # System Properties
 PRODUCT_PROPERTY_OVERRIDES += \
