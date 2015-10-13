@@ -27,6 +27,7 @@
 
 import init.qcom.usb.rc
 import init.qcom.power.rc
+import init.recovery.qcom.rc
 
 on early-init
     mount debugfs debugfs /sys/kernel/debug
@@ -1123,15 +1124,8 @@ on property:persist.sys.rootagent=1
 on property:persist.sys.rootagent=0
     stop rootagent
 
-service bms-sh /system/bin/sh /init.qcom.bms.sh
-    class main
-    user root
-    oneshot
-
 service vm_bms /system/bin/vm_bms
-    user root
-    group root
-    disabled
+    class core
 
 service msm_irqbalance /system/bin/msm_irqbalance -f /system/vendor/etc/msm_irqbalance.conf
     class core

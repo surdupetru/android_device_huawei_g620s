@@ -22,13 +22,13 @@ DEVICE_PACKAGE_OVERLAYS := $(LOCAL_PATH)/overlay
 
 # Audio calibration
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/audio/Bluetooth_cal.acdb:system/etc/Bluetooth_cal.acdb \
-    $(LOCAL_PATH)/audio/General_cal.acdb:system/etc/General_cal.acdb \
-    $(LOCAL_PATH)/audio/Global_cal.acdb:system/etc/Global_cal.acdb \
-    $(LOCAL_PATH)/audio/Handset_cal.acdb:system/etc/Handset_cal.acdb \
-    $(LOCAL_PATH)/audio/Hdmi_cal.acdb:system/etc/Hdmi_cal.acdb \
-    $(LOCAL_PATH)/audio/Headset_cal.acdb:system/etc/Headset_cal.acdb \
-    $(LOCAL_PATH)/audio/Speaker_cal.acdb:system/etc/Speaker_cal.acdb
+    $(LOCAL_PATH)/audio/Bluetooth_cal.acdb:system/etc/sound_param/g620s_l01l02/Bluetooth_cal.acdb \
+    $(LOCAL_PATH)/audio/General_cal.acdb:system/etc/sound_param/g620s_l01l02/General_cal.acdb \
+    $(LOCAL_PATH)/audio/Global_cal.acdb:system/etc/sound_param/g620s_l01l02/Global_cal.acdb \
+    $(LOCAL_PATH)/audio/Handset_cal.acdb:system/etc/sound_param/g620s_l01l02/Handset_cal.acdb \
+    $(LOCAL_PATH)/audio/Hdmi_cal.acdb:system/etc/sound_param/g620s_l01l02/Hdmi_cal.acdb \
+    $(LOCAL_PATH)/audio/Headset_cal.acdb:system/etc/sound_param/g620s_l01l02/Headset_cal.acdb \
+    $(LOCAL_PATH)/audio/Speaker_cal.acdb:system/etc/sound_param/g620s_l01l02/Speaker_cal.acdb
 
 # media_profiles and media_codecs xmls for 8916
 PRODUCT_COPY_FILES += \
@@ -43,8 +43,8 @@ PRODUCT_COPY_FILES += \
 # Audio configuration file
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/prebuilts/audio_policy.conf:system/etc/audio_policy.conf \
-    $(LOCAL_PATH)/prebuilts/audio_effects.conf:system/vendor/etc/audio_effects.conf \
-    $(LOCAL_PATH)/prebuilts/mixer_paths.xml:system/etc/mixer_paths.xml
+    $(LOCAL_PATH)/prebuilts/mixer_paths.xml:system/etc/mixer_paths.xml \
+    $(LOCAL_PATH)/prebuilts/mixer_paths_qrd_skuh.xml:system/etc/mixer_paths_qrd_skuh.xml
 
 # Feature definition files for msm8916
 PRODUCT_COPY_FILES += \
@@ -206,7 +206,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     fstab.qcom \
     init.class_main.sh \
-    init.qcom.bms.sh \
     init.qcom.class_core.sh \
     init.qcom.early_boot.sh \
     init.qcom.power.rc \
@@ -216,6 +215,7 @@ PRODUCT_PACKAGES += \
     init.qcom.syspart_fixup.sh \
     init.qcom.usb.rc \
     init.qcom.usb.sh \
+    init.recovery.qcom.rc \
     ueventd.qcom.rc
 
 # Etc
