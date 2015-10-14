@@ -99,10 +99,6 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/wifi/WCNSS_cfg.dat:system/etc/firmware/wlan/prima/WCNSS_cfg.dat \
     $(LOCAL_PATH)/wifi/WCNSS_qcom_wlan_nv.bin:system/etc/firmware/wlan/prima/WCNSS_qcom_wlan_nv.bin
 
-# MSM IRQ Balancer configuration file
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/prebuilts/msm_irqbalance.conf:system/vendor/etc/msm_irqbalance.conf
-
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/prebuilts/nfc-nci.conf:system/etc/nfc-nci.conf
 
@@ -213,14 +209,8 @@ PRODUCT_PACKAGES += \
 # Ramdisk
 PRODUCT_PACKAGES += \
     fstab.qcom \
-    init.class_main.sh \
-    init.qcom.class_core.sh \
-    init.qcom.early_boot.sh \
     init.qcom.power.rc \
     init.qcom.rc \
-    init.qcom.sh \
-    init.qcom.ssr.sh \
-    init.qcom.syspart_fixup.sh \
     init.qcom.usb.rc \
     init.qcom.usb.sh \
     init.recovery.qcom.rc \
@@ -229,10 +219,7 @@ PRODUCT_PACKAGES += \
 # Etc
 PRODUCT_PACKAGES += \
     init.qcom.bt.sh \
-    init.qcom.post_boot.sh \
-    init.qcom.wifi.sh \
-    init.qcom.zram.sh \
-    vold.fstab
+    init.qcom.zram.sh
 
 # Misc
 PRODUCT_PACKAGES += \
@@ -277,7 +264,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
     dalvik.vm.heapgrowthlimit=128m \
     dalvik.vm.heapminfree=6m \
     dalvik.vm.heapstartsize=14m \
-    ro.vendor.extension_library=libqti-perfd-client.so \
     persist.radio.no_wait_for_card=1 \
     persist.radio.apm_sim_not_pwdn=1 \
     persist.radio.sib16_support=1 \

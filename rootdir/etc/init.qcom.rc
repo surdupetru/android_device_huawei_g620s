@@ -93,7 +93,6 @@ on early-boot
     chown root audio /sys/kernel/boot_adsp/boot
 
 on boot
-    start rmt_storage
     insmod /system/lib/modules/adsprpc.ko
 # access permission for secure touch
     chmod 0660 /sys/devices/soc.0/78b9000.i2c/i2c-5/5-0020/secure_touch_enable
@@ -105,7 +104,6 @@ on boot
     chown system drmrpc /sys/devices/soc.0/78b9000.i2c/i2c-5/5-0070/secure_touch_enable
     chown system drmrpc /sys/devices/soc.0/78b9000.i2c/i2c-5/5-0070/secure_touch
 
-    start test_diag
     write /proc/sys/vm/page-cluster 0
 
     chown system system /sys/devices/12c.hw-dev-detect/dev_flag
@@ -447,8 +445,10 @@ service qseecomd /system/bin/qseecomd
    user root
    group root
 
-service mpdecision /system/bin/mpdecision --avg_comp
+service perfd /system/bin/perfd
+   class main
    user root
+   group root
    disabled
 
 service thermal-engine /system/bin/thermal-engine
@@ -647,7 +647,6 @@ service irsc_util /system/bin/irsc_util "/etc/sec_config"
 service rmt_storage /system/bin/rmt_storage
     class core
     user root
-    disabled
 
 service rfs_access /system/bin/rfs_access
    class core
@@ -739,37 +738,31 @@ service qmiproxy /system/bin/qmiproxy
     class main
     user radio
     group radio qcom_diag
-    disabled
 
 # QMUX must be in multiple groups to support external process connections
 service qmuxd /system/bin/qmuxd
     class main
     user root
     group radio audio bluetooth gps qcom_diag
-    disabled
 
 service netmgrd /system/bin/netmgrd
     class main
-    disabled
 
 service ipacm-diag /system/bin/ipacm-diag
     class main
     user system
     socket ipacm_log_file dgram 660 system net_admin
     group net_admin qcom_diag
-    disabled
 
 service ipacm /system/bin/ipacm
     class main
     user net_admin
     group net_admin inet
-    disabled
 
 service qti /system/vendor/bin/qti
     class main
     user radio
     group radio net_raw qcom_diag usb net_admin
-    disabled
 
 service sensors /system/bin/sensors.qcom
     class late_start
@@ -1016,7 +1009,6 @@ service ril-daemon2 /system/bin/rild -c 2
     socket rild2 stream 660 root radio
     socket rild-debug2 stream 660 radio system
     user root
-    disabled
     group radio cache inet misc audio sdcard_r sdcard_rw diag qcom_diag log
 
 service ril-daemon3 /system/bin/rild -c 3
@@ -1024,7 +1016,6 @@ service ril-daemon3 /system/bin/rild -c 3
     socket rild3 stream 660 root radio
     socket rild-debug3 stream 660 radio system
     user root
-    disabled
     group radio cache inet misc audio sdcard_r sdcard_rw diag qcom_diag log
 
 service profiler_daemon /system/bin/profiler_daemon
@@ -1127,12 +1118,6 @@ on property:persist.sys.rootagent=0
 service vm_bms /system/bin/vm_bms
     class core
 
-service msm_irqbalance /system/bin/msm_irqbalance -f /system/vendor/etc/msm_irqbalance.conf
-    class core
-    user root
-    group root
-    disabled
-
 service wfdservice /system/bin/wfdservice
     class main
     user system
@@ -1160,9 +1145,8 @@ service rmt_oeminfo /system/bin/rmt_oeminfo
     user root
 
 service test_diag /system/bin/test_diag
+    class core
     user root
-    disabled
-    seclabel u:r:diag:s0
 
 service libqmi_oem_main /system/bin/libqmi_oem_main
     class main
