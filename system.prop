@@ -76,6 +76,12 @@ av.offload.enable=true
 #Set composition for USB
 persist.sys.usb.config=mtp,adb
 
+# Connectivity Engine support
+persist.cne.feature=1
+persist.dpm.feature=7
+persist.dpm.nsrm.bkg.evt=3955
+persist.sys.dpmd.nsrm=3
+
 # Camera
 ro.config.hw_camera_hdr=true
 ro.config.camera_target_track=true

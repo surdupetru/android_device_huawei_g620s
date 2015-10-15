@@ -61,6 +61,9 @@ on init
 
    write /sys/module/qpnp_rtc/parameters/poweron_alarm 1
 
+on post-fs
+    export LD_PRELOAD /vendor/lib/libNimsWrap.so
+
 on fs
     mount_all fstab.qcom
 
