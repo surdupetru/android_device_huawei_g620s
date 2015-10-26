@@ -211,6 +211,7 @@
 # wlan
 /dev/wcnss_wlan           0660   system     system
 /dev/wcnss_ctrl           0660   system     system
+
 #nfc permissions
 /dev/nfc-nci              0660    nfc         nfc
 /dev/nq-nci               0660    nfc         nfc
@@ -234,6 +235,9 @@
 /dev/hbtp_input           0660   system     system
 /dev/hbtp_vm              0660   system     system
 /dev/jdi-bu21150          0660   system     system
+
+# ACDB
+/dev/msm_acdb             0660   system     audio
 
 # Add device block for FRP
 /dev/block/bootdevice/by-name/config    0660   system     system
