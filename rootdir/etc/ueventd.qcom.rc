@@ -239,6 +239,16 @@
 # ACDB
 /dev/msm_acdb             0660   system     audio
 
+# I2C
+/dev/i2c-0                0660   root       system
+/dev/i2c-4                0660   root       system
+/dev/i2c-6                0660   root       system
+
+# Compass
+/dev/akm09911             0660   compass    compass
+/dev/akm09911_dev         0660   compass    compass
+
+
 # Add device block for FRP
 /dev/block/bootdevice/by-name/config    0660   system     system
 /dev/block/bootdevice/by-name/oeminfo   0660   system     system
