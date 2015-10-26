@@ -592,7 +592,6 @@ on property:init.svc.wpa_supplicant=stopped
     stop dhcpcd
 
 on property:bluetooth.isEnabled=true
-    start btwlancoex
     write /sys/class/bluetooth/hci0/idle_timeout 7000
 
 on property:bluetooth.sap.status=running
@@ -616,18 +615,7 @@ on property:bluetooth.startbtsnoop=true
 on property:bluetooth.startbtsnoop=false
     stop btsnoop
 
-service qcom-c_core-sh /system/bin/sh /init.qcom.class_core.sh
-    class core
-    user root
-    oneshot
-
-service qcom-c_main-sh /system/bin/sh /init.class_main.sh
-    class main
-    user root
-    oneshot
-
 on property:vold.decrypt=trigger_restart_framework
-    start qcom-c_main-sh
     start config_bluetooth
     start wcnss-service
 
@@ -689,13 +677,6 @@ on property:bluetooth.hciattach=true
 
 on property:bluetooth.hciattach=false
     setprop bluetooth.status off
-
-service hciattach_ath3k /system/bin/sh /system/etc/init.ath3k.bt.sh
-     class late_start
-     user bluetooth
-     group system bluetooth net_bt_admin misc
-     disabled
-     oneshot
 
 service bt-dun /system/bin/dun-server /dev/smd7 /dev/rfcomm0
     class late_start
@@ -781,13 +762,6 @@ on property:ro.use_data_netmgrd=false
 # but only if ro.data.large_tcp_window_size property is set.
 on property:ro.data.large_tcp_window_size=true
     write /proc/sys/net/ipv4/tcp_adv_win_scale  2
-
-service btwlancoex /system/bin/sh /system/etc/init.qcom.coex.sh
-    class late_start
-    user bluetooth
-    group bluetooth net_bt_admin inet net_admin net_raw
-    disabled
-    oneshot
 
 service amp_init /system/bin/amploader -i
     class late_start
@@ -920,13 +894,6 @@ service loc_launcher /system/bin/loc_launcher
     class late_start
     group gps inet net_raw qcom_diag net_admin wifi
 
-service fm_dl /system/bin/sh /system/etc/init.qcom.fm.sh
-    class late_start
-    user root
-    group system
-    disabled
-    oneshot
-
 on property:crypto.driver.load=1
      insmod /system/lib/modules/qce.ko
      insmod /system/lib/modules/qcedev.ko
@@ -942,29 +909,6 @@ on property:drmdiag.load=1
 
 on property:drmdiag.load=0
     stop drmdiag
-
-service qcom-sh /system/bin/sh /init.qcom.sh
-    class late_start
-    user root
-    oneshot
-
-service qcom-post-boot /system/bin/sh /system/etc/init.qcom.post_boot.sh
-    class late_start
-    user root
-    disabled
-    oneshot
-
-service wifi-sdio-on /system/bin/sh /system/etc/init.qcom.sdio.sh
-    class late_start
-    group wifi inet
-    disabled
-    oneshot
-
-service wifi-crda /system/bin/sh /system/etc/init.crda.sh
-   class late_start
-   user root
-   disabled
-   oneshot
 
 service config-zram /system/bin/sh /system/etc/init.qcom.zram.sh
    class late_start
@@ -1100,23 +1044,6 @@ service diag_mdlog_stop /system/bin/diag_mdlog -k
     group system qcom_diag sdcard_rw sdcard_r media_rw
     disabled
     oneshot
-
-service qlogd /system/xbin/qlogd
-    socket qlogd stream 0662 system system
-    class main
-    disabled
-on property:persist.sys.qlogd=1
-    start qlogd
-on property:persist.sys.qlogd=0
-    stop qlogd
-
-service rootagent /system/bin/sh /system/etc/init.qcom.rootagent.sh
-    disabled
-    oneshot
-on property:persist.sys.rootagent=1
-    start rootagent
-on property:persist.sys.rootagent=0
-    stop rootagent
 
 service vm_bms /system/bin/vm_bms
     class core
