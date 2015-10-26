@@ -406,7 +406,6 @@ on charger
     chmod 0664 /sys/class/power_supply/bms/voltage_ocv
     start vm_bms
     load_all_props
-    start qcom-post-boot
 
 # start service here
 
@@ -916,7 +915,6 @@ service config-zram /system/bin/sh /system/etc/init.qcom.zram.sh
    oneshot
 
 on property:sys.boot_completed=1
-    start qcom-post-boot
     start config-zram
 
 service atfwd /system/bin/ATFWD-daemon
