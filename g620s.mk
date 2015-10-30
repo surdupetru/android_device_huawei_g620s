@@ -42,6 +42,7 @@ PRODUCT_COPY_FILES += \
 
 # Audio configuration file
 PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/prebuilts/audio_effects.conf:system/etc/audio_effects.conf \
     $(LOCAL_PATH)/prebuilts/audio_policy.conf:system/etc/audio_policy.conf \
     $(LOCAL_PATH)/prebuilts/mixer_paths.xml:system/etc/mixer_paths.xml \
     $(LOCAL_PATH)/prebuilts/mixer_paths_qrd_skuh.xml:system/etc/mixer_paths_qrd_skuh.xml
@@ -120,6 +121,7 @@ PRODUCT_PACKAGES += \
     audio.a2dp.default \
     audio.usb.default \
     audio.r_submix.default \
+    audio_amplifier.msm8916 \
     audio.primary.msm8916 \
     audio_policy.msm8916 \
     tinymix \
@@ -135,9 +137,13 @@ PRODUCT_PACKAGES += \
     libmm-omxcore \
     libqomx_core
 
-# Charger
+# for off charging mode
 PRODUCT_PACKAGES += \
     charger_res_images
+
+# Recovery init script
+PRODUCT_COPY_FILES += \
+	$(LOCAL_PATH)/recovery/init.recovery.qcom.rc:root/init.recovery.qcom.rc
 
 # Connectivity Engine support
 PRODUCT_PACKAGES += \
@@ -226,6 +232,7 @@ PRODUCT_PACKAGES += \
 # Etc
 PRODUCT_PACKAGES += \
     init.qcom.bt.sh \
+    init.qcom.post_boot.sh \
     init.qcom.zram.sh
 
 # Misc
@@ -235,7 +242,8 @@ PRODUCT_PACKAGES += \
 
 # USB
 PRODUCT_PACKAGES += \
-    com.android.future.usb.accessory
+    com.android.future.usb.accessory \
+    persist.sys.isUsbOtgEnabled=1
 
 # WiFi
 PRODUCT_PACKAGES += \
@@ -283,5 +291,9 @@ PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
 # IO Scheduler
 PRODUCT_PROPERTY_OVERRIDES += \
     sys.io.scheduler=bfq
+
+# Recovery
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.cwm.forbid_format=/fsg,/firmware,/persist,/boot
 
 $(call inherit-product, frameworks/native/build/phone-xhdpi-1024-dalvik-heap.mk)
