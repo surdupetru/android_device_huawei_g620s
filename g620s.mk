@@ -112,6 +112,10 @@ PRODUCT_PACKAGES += \
     libqcompostprocbundle \
     libqcomvoiceprocessing
 
+# Lights
+PRODUCT_PACKAGES += \
+    lights.msm8916
+
 # Charger
 PRODUCT_PACKAGES += \
     charger_res_images
