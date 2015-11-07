@@ -218,6 +218,9 @@ PRODUCT_PACKAGES += \
 PRODUCT_BOOT_JARS += \
     qcmediaplayer
 
+PRODUCT_PROPERTY_OVERRIDES += \
+    ro.build.selinux=0
+
 # System Properties
 PRODUCT_PROPERTY_OVERRIDES += \
     drm.service.enabled=true
