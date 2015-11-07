@@ -88,6 +88,10 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/wifi/WCNSS_cfg.dat:system/etc/firmware/wlan/prima/WCNSS_cfg.dat \
     $(LOCAL_PATH)/wifi/WCNSS_qcom_wlan_nv.bin:system/etc/firmware/wlan/prima/WCNSS_qcom_wlan_nv.bin
 
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/prebuilts/etc/init.qcom.bt.sh:system/bin/init.qcom.bt.sh \
+    $(LOCAL_PATH)/prebuilts/etc/init.qcom.zram.sh:system/bin/init.qcom.zram.sh
+
 # Screen density
 PRODUCT_AAPT_CONFIG := normal
 PRODUCT_AAPT_PREF_CONFIG := xhdpi
@@ -193,11 +197,6 @@ PRODUCT_PACKAGES += \
     init.qcom.usb.sh \
     init.recovery.qcom.rc \
     ueventd.qcom.rc
-
-# Etc
-PRODUCT_PACKAGES += \
-    init.qcom.bt.sh \
-    init.qcom.zram.sh
 
 # Misc
 PRODUCT_PACKAGES += \
