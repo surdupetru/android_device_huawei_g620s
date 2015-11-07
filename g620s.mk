@@ -180,12 +180,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     power.msm8916
 
-# Sensors
-PRODUCT_PACKAGES += \
-    sensors.msm8916 \
-    libcalmodule_akm \
-    calmodule.cfg
-
 # Ramdisk
 PRODUCT_PACKAGES += \
     fstab.qcom \
