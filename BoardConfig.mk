@@ -161,17 +161,6 @@ include device/qcom/sepolicy/sepolicy.mk
 BOARD_SEPOLICY_DIRS += \
     device/huawei/g620s/sepolicy
 
-BOARD_SEPOLICY_UNION += \
-    bootanim.te \
-    diag.te \
-    file.te \
-    file_contexts \
-    init.te \
-    mm-qcamerad.te \
-    mpdecision.te \
-    netd.te \
-    system_server.te
-
 TARGET_SYSTEM_PROP := $(LOCAL_PATH)/system.prop
 
 #Use dlmalloc instead of jemalloc for mallocs
