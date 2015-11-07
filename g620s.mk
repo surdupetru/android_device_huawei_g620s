@@ -119,14 +119,6 @@ PRODUCT_PACKAGES += \
     libqcompostprocbundle \
     libqcomvoiceprocessing
 
-# Camera
-PRODUCT_PACKAGES += \
-    camera.msm8916 \
-    mm-qcamera-app \
-    libmmjpeg_interface \
-    libmm-omxcore \
-    libqomx_core
-
 # Charger
 PRODUCT_PACKAGES += \
     charger_res_images
@@ -247,10 +239,6 @@ PRODUCT_BOOT_JARS += \
 PRODUCT_PROPERTY_OVERRIDES += \
     drm.service.enabled=true
 
-# Camera shutter sound property
-PRODUCT_PROPERTY_OVERRIDES += \
-    persist.sys.camera-sound=1
-
 PRODUCT_PROPERTY_OVERRIDES += \
     dalvik.vm.heapgrowthlimit=128m \
     dalvik.vm.heapminfree=6m \
@@ -261,8 +249,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.sf.lcd_density=320
 
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
-    persist.sys.usb.config=mtp \
-    camera2.portability.force_api=1
+    persist.sys.usb.config=mtp
 
 # IO Scheduler
 PRODUCT_PROPERTY_OVERRIDES += \
