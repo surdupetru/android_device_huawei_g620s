@@ -21,9 +21,6 @@
 
 LOCAL_PATH := device/huawei/g620s
 
-# DPM NSRM Feature
-TARGET_LDPRELOAD := libNimsWrap.so
-
 # Platform
 TARGET_BOARD_PLATFORM := msm8916
 TARGET_BOARD_PLATFORM_GPU := qcom-adreno306
