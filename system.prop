@@ -35,11 +35,6 @@ mm.enable.smoothstreaming=true
 mm.disable.sec_smoothstreaming=true
 media.aac_51_output_enabled=true
 
-# GPS
-persist.gps.qc_nlp_in_use=1
-persist.loc.nlp_name=com.qualcomm.services.location
-ro.gps.agps_provider=1
-
 #
 # system props for the data modules
 #
