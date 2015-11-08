@@ -228,6 +228,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.build.selinux=0
 
 PRODUCT_PROPERTY_OVERRIDES += \
+    dalvik.vm.dex2oat-swap=false
+
+PRODUCT_PROPERTY_OVERRIDES += \
     dalvik.vm.heapgrowthlimit=128m \
     dalvik.vm.heapminfree=6m \
     dalvik.vm.heapstartsize=14m \
