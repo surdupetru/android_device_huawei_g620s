@@ -224,10 +224,6 @@ PRODUCT_BOOT_JARS += \
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.build.selinux=0
 
-# System Properties
-PRODUCT_PROPERTY_OVERRIDES += \
-    drm.service.enabled=true
-
 PRODUCT_PROPERTY_OVERRIDES += \
     dalvik.vm.heapgrowthlimit=128m \
     dalvik.vm.heapminfree=6m \
