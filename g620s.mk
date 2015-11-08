@@ -224,6 +224,8 @@ PRODUCT_PACKAGES += \
     wpa_supplicant.conf \
     wcnss_service
 
+PRODUCT_PACKAGES +=  libstlport
+
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.build.selinux=0
 
