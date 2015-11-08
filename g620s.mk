@@ -54,7 +54,7 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.bluetooth_le.xml:system/etc/permissions/android.hardware.bluetooth_le.xml \
     frameworks/native/data/etc/android.hardware.camera.flash-autofocus.xml:system/etc/permissions/android.hardware.camera.flash-autofocus.xml \
     frameworks/native/data/etc/android.hardware.camera.front.xml:system/etc/permissions/android.hardware.camera.front.xml \
-    frameworks/native/data/etc/android.hardware.ethernet.xml:system/etc/permissions/android.hardware.ethernet.xml \
+    frameworks/native/data/etc/android.software.midi.xml:system/etc/permissions/android.software.midi.xml \
     frameworks/native/data/etc/android.hardware.location.gps.xml:system/etc/permissions/android.hardware.location.gps.xml \
     frameworks/native/data/etc/android.hardware.telephony.gsm.xml:system/etc/permissions/android.hardware.telephony.gsm.xml \
     frameworks/native/data/etc/android.hardware.telephony.cdma.xml:system/etc/permissions/android.hardware.telephony.cdma.xml \
@@ -132,7 +132,8 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     make_ext4fs \
     setup_fs \
-    e2fsck
+    e2fsck \
+    librs_jni
 
 # FM
 PRODUCT_PACKAGES += \
@@ -147,21 +148,18 @@ PRODUCT_PACKAGES += \
     gralloc.msm8916 \
     memtrack.msm8916 \
     hwcomposer.msm8916 \
+    libgenlock \
+    liboverlay \
     libtinyxml
 
 # IPv6
 PRODUCT_PACKAGES += \
     ebtables \
-    ethertypes \
-    libebtc
+    ethertypes
 
 # Keystore
 PRODUCT_PACKAGES += \
     keystore.msm8916
-
-# Live Wallpapers
-PRODUCT_PACKAGES += \
-    librs_jni
 
 # KEYPAD
 PRODUCT_PACKAGES += \
@@ -172,16 +170,24 @@ PRODUCT_PACKAGES += \
 
 # OMX
 PRODUCT_PACKAGES += \
+    libc2dcolorconvert \
+    libdashplayer \
+    libdivxdrmdecrypt \
+    libextmedia_jni \
     libOmxAacEnc \
     libOmxAmrEnc \
     libOmxCore \
     libOmxEvrcEnc \
     libOmxQcelp13Enc \
     libOmxVdec \
+    libOmxVdecHevc \
     libOmxVenc \
-    libdivxdrmdecrypt \
+    libOmxVidcCommon \
+    libqcmediaplayer \
     libstagefrighthw \
-    libdashplayer \
+    qcmediaplayer
+
+PRODUCT_BOOT_JARS += \
     qcmediaplayer
 
 # Power
@@ -217,9 +223,6 @@ PRODUCT_PACKAGES += \
     wpa_supplicant \
     wpa_supplicant.conf \
     wcnss_service
-
-PRODUCT_BOOT_JARS += \
-    qcmediaplayer
 
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.build.selinux=0
