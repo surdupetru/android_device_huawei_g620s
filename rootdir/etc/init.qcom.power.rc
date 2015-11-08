@@ -1,5 +1,3 @@
-on early-init
-
 on enable-low-power
 
     # Adaptive LMK
@@ -22,7 +20,7 @@ on enable-low-power
     # enable governor
     write /sys/devices/system/cpu/cpu0/online 1
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "interactive"
-    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 200000
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 533333
     # enable thermal core_control now
     write /sys/module/msm_thermal/core_control/enabled 1
 
@@ -44,73 +42,21 @@ on enable-low-power
     rm /data/system/perfd/default_values
     start perfd
 
+on property:sys.boot_completed=1
+    setprop sys.io.scheduler bfq
+
+    # Set up KSM
+    write /sys/kernel/mm/ksm/deferred_timer 1
+    write /sys/kernel/mm/ksm/pages_to_scan 100
+    write /sys/kernel/mm/ksm/sleep_millisecs 2000
+    write /sys/kernel/mm/ksm/run 1
+
 on charger
     write /sys/module/lpm_levels/parameters/sleep_disabled 0
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "powersave"
 
-on class_start:late_start
+on boot
     trigger enable-low-power
 
 on property:init.svc.recovery=running
     trigger enable-low-power
-
-on boot
-
-    setprop sys.perf.profile 1
-
-# CM Performance Profiles
-on property:sys.perf.profile=0
-    write /sys/devices/system/cpu/cpu1/online 1
-    write /sys/devices/system/cpu/cpu2/online 1
-    write /sys/devices/system/cpu/cpu3/online 1
-    write /sys/module/msm_thermal/core_control/enabled 0
-    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "powersave"
-    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor "powersave"
-    write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor "powersave"
-    write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor "powersave"
-    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 200000
-    write /sys/module/msm_thermal/core_control/enabled 1
-
-    write /sys/class/devfreq/1c00000.qcom,kgsl-3d0/governor "powersave"
-    write /sys/class/devfreq/qcom,cpubw.29/governor "powersave"
-
-on property:sys.perf.profile=1
-    write /sys/devices/system/cpu/cpu1/online 1
-    write /sys/devices/system/cpu/cpu2/online 1
-    write /sys/devices/system/cpu/cpu3/online 1
-    write /sys/module/msm_thermal/core_control/enabled 0
-    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "interactive"
-    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor "interactive"
-    write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor "interactive"
-    write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor "interactive"
-
-    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 200000
-    write /sys/devices/system/cpu/cpufreq/interactive/timer_rate 30000
-    write /sys/devices/system/cpu/cpufreq/interactive/min_sample_time 50000
-    write /sys/devices/system/cpu/cpufreq/interactive/hispeed_freq 998400
-    write /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load 90
-    write /sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay "25000 1094400:50000"
-    write /sys/devices/system/cpu/cpufreq/interactive/boostpulse_duration 60000
-    write /sys/devices/system/cpu/cpufreq/interactive/io_is_busy 0
-    write /sys/devices/system/cpu/cpufreq/interactive/max_freq_hysteresis 50000
-    write /sys/devices/system/cpu/cpufreq/interactive/target_loads "1 533333:80 800000:85 998400:90 1094400:80"
-
-    # enable thermal core_control now
-    write /sys/module/msm_thermal/core_control/enabled 1
-
-    write /sys/class/devfreq/1c00000.qcom,kgsl-3d0/governor "msm-adreno-tz"
-    write /sys/class/devfreq/qcom,cpubw.29/governor "cpufreq"
-
-on property:sys.perf.profile=2
-    write /sys/devices/system/cpu/cpu1/online 1
-    write /sys/devices/system/cpu/cpu2/online 1
-    write /sys/devices/system/cpu/cpu3/online 1
-    write /sys/module/msm_thermal/core_control/enabled 0
-    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "performance"
-    write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor "performance"
-    write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor "performance"
-    write /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor "performance"
-    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 800000
-    write /sys/module/msm_thermal/core_control/enabled 1
-    write /sys/class/devfreq/1c00000.qcom,kgsl-3d0/governor "performance"
-    write /sys/class/devfreq/qcom,cpubw.29/governor "performance"
