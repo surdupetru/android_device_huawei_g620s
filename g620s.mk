@@ -120,6 +120,12 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     media_codecs_ffmpeg.xml
 
+# dataservices
+PRODUCT_PACKAGES += \
+    librmnetctl \
+    rmnetcli \
+    sockev
+
 # Lights
 PRODUCT_PACKAGES += \
     lights.msm8916
