@@ -415,11 +415,10 @@ service qseecomd /system/bin/qseecomd
    user root
    group root
 
-service perfd /system/bin/perfd
-   class main
-   user root
-   group root
-   disabled
+service mpdecision /system/bin/mpdecision --avg_comp
+    class late_start
+    user root
+    group root system
 
 service thermal-engine /vendor/bin/thermal-engine
    class main
