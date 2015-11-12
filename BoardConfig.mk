@@ -156,9 +156,6 @@ TARGET_QCOM_NO_FM_FIRMWARE := true
 # SELinux
 include device/qcom/sepolicy/sepolicy.mk
 
-BOARD_SEPOLICY_DIRS += \
-    device/huawei/g620s/sepolicy
-
 USE_MINIKIN := true
 
 TARGET_SYSTEM_PROP := $(LOCAL_PATH)/system.prop
