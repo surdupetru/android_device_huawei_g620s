@@ -411,7 +411,7 @@ service mpdecision /system/bin/mpdecision --avg_comp
     user root
     group root system
 
-service thermal-engine /vendor/bin/thermal-engine
+service thermal-engine /system/vendor/bin/thermal-engine
    class main
    user root
    socket thermal-send-client stream 0666 system system
@@ -443,7 +443,7 @@ on property:init.svc.surfaceflinger=running
     start ppd
 
 service wcnss-service /system/bin/wcnss_service
-    class main
+    class late_start
     user system
     group system wifi radio
     oneshot
