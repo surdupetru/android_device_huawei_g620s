@@ -223,6 +223,9 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     com.android.future.usb.accessory
 
+PRODUCT_PROPERTY_OVERRIDES += \
+    persist.sys.usb.config=adb
+
 # WiFi
 PRODUCT_PACKAGES += \
     libqsap_sdk \
@@ -252,8 +255,5 @@ PRODUCT_PROPERTY_OVERRIDES += \
     persist.radio.apm_sim_not_pwdn=1 \
     persist.radio.sib16_support=1 \
     ro.sf.lcd_density=320
-
-PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
-    persist.sys.usb.config=mtp
 
 $(call inherit-product, frameworks/native/build/phone-xhdpi-1024-dalvik-heap.mk)
