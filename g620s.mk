@@ -238,6 +238,7 @@ PRODUCT_PACKAGES += \
     wcnss_service
 
 #PRODUCT_PACKAGES +=  libstlport
+PRODUCT_PACKAGES += libboringssl-compat
 
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.build.selinux=0
