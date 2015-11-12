@@ -128,6 +128,9 @@ BOARD_PERSISTIMAGE_PARTITION_SIZE := 33554432
 # Secure services
 BOARD_USES_SECURE_SERVICES := true
 
+# Enable keymaster app checking
+TARGET_KEYMASTER_WAIT_FOR_QSEE := true
+
 #Reduce space taken by the journal
 BOARD_SYSTEMIMAGE_JOURNAL_SIZE := 0
 
