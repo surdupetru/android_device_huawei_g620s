@@ -41,9 +41,7 @@ on enable-low-power
 
 on property:sys.boot_completed=1
     setprop sys.io.scheduler bfq
-
-   start mpdecision
-
+  
     # Set up KSM
     write /sys/kernel/mm/ksm/deferred_timer 1
     write /sys/kernel/mm/ksm/pages_to_scan 100
