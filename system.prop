@@ -63,6 +63,3 @@ ro.qualcomm.bt.hci_transport=smd
 audio.offload.buffer.size.kb=64
 audio.offload.min.duration.secs=30
 av.offload.enable=true
-
-# enable zram
-ro.config.zram=true

@@ -142,7 +142,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     make_ext4fs \
     setup_fs \
-    e2fsck \
     librs_jni
 
 # FM
