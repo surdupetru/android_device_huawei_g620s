@@ -1065,6 +1065,23 @@ service RIDL /system/vendor/bin/RIDLClient.exe
     group system inet log sdcard_r sdcard_rw
     # removed for security team - misc bluetooth radio gps wifi diag media_rw
     # limited to 12 groups.  Unused: audio usb qcom_diag net_bt_admin net_bt_stac net_raw net_admin
+    
+
+# Set different perfer network type for different phone type
+on property:ro.boot.modem=LTETD
+    setprop ro.telephony.default_network 17
+on property:ro.boot.modem=LTEW
+    setprop ro.telephony.default_network 9
+on property:ro.boot.modem=LTEGLOBAL
+    setprop ro.telephony.default_network 9
+
+# Enable manual network selection function for CMCC
+on property:ro.boot.modem=LTETD
+    setprop persist.radio.rat_on combine
+
+# Enable manual network selection function for CU
+on property:ro.boot.modem=LTEW
+    setprop persist.radio.rat_on combine
 
 # Huawei service
 service rmt_oeminfo /system/bin/rmt_oeminfo
