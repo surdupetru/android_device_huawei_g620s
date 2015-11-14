@@ -222,9 +222,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     com.android.future.usb.accessory
 
-PRODUCT_PROPERTY_OVERRIDES += \
-    persist.sys.usb.config=adb
-
 # WiFi
 PRODUCT_PACKAGES += \
     libqsap_sdk \
