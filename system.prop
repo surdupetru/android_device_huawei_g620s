@@ -63,3 +63,6 @@ ro.qualcomm.bt.hci_transport=smd
 audio.offload.buffer.size.kb=64
 audio.offload.min.duration.secs=30
 av.offload.enable=true
+
+#Set composition for USB
+persist.sys.usb.config=mtp,adb
