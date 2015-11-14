@@ -143,7 +143,7 @@ TARGET_RECOVERY_FSTAB := $(LOCAL_PATH)/rootdir/fstab.qcom
 BOARD_USES_QC_TIME_SERVICES := true
 
 # Liblight
-#TARGET_PROVIDES_LIBLIGHT := true
+TARGET_PROVIDES_LIBLIGHT := true
 
 # Logging
 TARGET_USES_LOGD := false
