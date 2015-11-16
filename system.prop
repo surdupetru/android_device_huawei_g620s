@@ -35,6 +35,15 @@ mm.enable.smoothstreaming=true
 mm.disable.sec_smoothstreaming=true
 media.aac_51_output_enabled=true
 
+# set max starting background services
+ro.config.max_starting_bg=8
+
+# GPS
+persist.gps.qc_nlp_in_use=0
+ro.gps.agps_provider=1
+ro.qc.sdk.izat.premium.enabled=0
+ro.qc.sdk.izat.service_mask=0x0
+
 #
 # system props for the data modules
 #
@@ -52,17 +61,23 @@ ro.qualcomm.cabl=2
 telephony.lteOnCdmaDevice=1
 persist.data.target=dpm1
 persist.radio.no_cons_man_roam=1
+persist.data.qmi.adb_logmask=0
 
 # System props for bluetooh
 bluetooth.hfp.client=1
 ro.qualcomm.bt.hci_transport=smd
 
-#
-# Audio msm8916
-#
-audio.offload.buffer.size.kb=64
-audio.offload.min.duration.secs=30
+# Audio
+tunnel.audio.encode=false
 av.offload.enable=true
+av.streaming.offload.enable=true
+audio.offload.buffer.size.kb=64
+audio.offload.gapless.enabled=true
+audio.offload.min.duration.secs=30
+audio.offload.pcm.16bit.enable=false
+audio.offload.pcm.24bit.enable=true
+use.voice.path.for.pcm.voip=true
+vidc.enc.narrow.searchrange=1
 
 #Set composition for USB
 persist.sys.usb.config=mtp,adb
