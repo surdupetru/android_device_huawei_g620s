@@ -124,6 +124,12 @@ PRODUCT_PACKAGES += \
     libqcompostprocbundle \
     libqcomvoiceprocessing
 
+# Camera
+PRODUCT_PACKAGES += \
+    camera.msm8916 \
+    libboringssl-compat \
+    libcam
+
 # ffmpeg codecs
 PRODUCT_PACKAGES += \
     media_codecs_ffmpeg.xml
@@ -150,6 +156,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     make_ext4fs \
     setup_fs \
+    e2fsck \
     librs_jni
 
 # FM
@@ -245,8 +252,9 @@ PRODUCT_PACKAGES += \
     wpa_supplicant.conf \
     wcnss_service
 
-#PRODUCT_PACKAGES +=  libstlport
-PRODUCT_PACKAGES += libboringssl-compat
+# Stlport
+PRODUCT_PACKAGES += \
+    libstlport
 
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.build.selinux=0
