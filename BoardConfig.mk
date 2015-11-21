@@ -61,9 +61,6 @@ BOARD_USES_LEGACY_MMAP := true
 TARGET_USE_VENDOR_CAMERA_EXT := true
 COMMON_GLOBAL_CFLAGS += -DCAMERA_VENDOR_L_COMPAT
 
-# CMHW
-BOARD_HARDWARE_CLASS := device/huawei/g620s/cmhw
-
 # tap2wak
 TARGET_TAP_TO_WAKE_NODE := /sys/touch_screen/easy_wakeup_gesture
 
