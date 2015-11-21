@@ -256,9 +256,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     libstlport
 
-PRODUCT_PROPERTY_OVERRIDES += \
-    ro.build.selinux=0
-
 # Art
 PRODUCT_PROPERTY_OVERRIDES += \
     dalvik.vm.dex2oat-swap=false \

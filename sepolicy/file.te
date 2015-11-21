@@ -1,0 +1,2 @@
+type tap2wake_dev, fs_type, sysfs_type;
+

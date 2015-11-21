@@ -1,0 +1,3 @@
+# TapToWake
+allow system_server tap2wake_dev:file rw_file_perms;
+
