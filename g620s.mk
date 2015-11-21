@@ -250,6 +250,10 @@ PRODUCT_PACKAGES += \
     wpa_supplicant.conf \
     wcnss_service
 
+# Huawei symbols
+PRODUCT_PACKAGES += \
+    libh_symbols
+
 # Art
 PRODUCT_PROPERTY_OVERRIDES += \
     dalvik.vm.dex2oat-swap=false \
