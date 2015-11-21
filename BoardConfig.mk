@@ -161,8 +161,7 @@ TARGET_RIL_VARIANT := caf
 PROTOBUF_SUPPORTED := true
 
 # FM
-AUDIO_FEATURE_ENABLED_FM := true
-TARGET_QCOM_NO_FM_FIRMWARE := true
+TARGET_FM_LEGACY_PATCHLOADER := true
 
 # SELinux
 include device/qcom/sepolicy/sepolicy.mk
