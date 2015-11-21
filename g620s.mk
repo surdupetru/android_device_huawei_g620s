@@ -233,7 +233,6 @@ PRODUCT_PACKAGES += \
 
 # Misc
 PRODUCT_PACKAGES += \
-    libbson \
     libxml2
 
 # USB
@@ -250,10 +249,6 @@ PRODUCT_PACKAGES += \
     wpa_supplicant \
     wpa_supplicant.conf \
     wcnss_service
-
-# Stlport
-PRODUCT_PACKAGES += \
-    libstlport
 
 # Art
 PRODUCT_PROPERTY_OVERRIDES += \
