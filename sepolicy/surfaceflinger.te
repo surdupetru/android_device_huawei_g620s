@@ -1,0 +1,4 @@
+# secure display
+allow surfaceflinger persist_file:dir r_dir_perms;
+
+allow surfaceflinger log_device:chr_file { write open };
