@@ -81,3 +81,12 @@ vidc.enc.narrow.searchrange=1
 
 #Set composition for USB
 persist.sys.usb.config=mtp,adb
+
+# Camera
+ro.config.hw_camera_hdr=true
+ro.config.camera_target_track=true
+ro.config.hw_camera_davinci=true
+ro.config.hw_camera_mfd=true
+persist.camera.longshot.enable=true
+ro.config.camerarc=true
+persist.camera.pip.support=0
