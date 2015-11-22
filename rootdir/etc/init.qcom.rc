@@ -1027,7 +1027,3 @@ service rmt_oeminfo /system/bin/rmt_oeminfo
 service test_diag /system/bin/test_diag
     class core
     user root
-
-service libqmi_oem_main /system/bin/libqmi_oem_main
-    class core
-    user root
