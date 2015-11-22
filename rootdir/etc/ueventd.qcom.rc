@@ -299,8 +299,8 @@
 /dev/i2c-6                0660   root       system
 
 # Compass
-/dev/akm09911             0660   compass    compass
-/dev/akm09911_dev         0660   compass    compass
+/dev/akm09911             0660   system     compass
+/dev/akm09911_dev         0660   system     compass
 
 
 # Add device block for FRP
