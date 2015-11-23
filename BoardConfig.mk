@@ -70,6 +70,10 @@ TARGET_USES_CSVT := true
 # Enable suspend during charger mode
 BOARD_CHARGER_ENABLE_SUSPEND := true
 BOARD_CHARGER_SHOW_PERCENTAGE := true
+BOARD_CHARGER_DISABLE_INIT_BLANK := true
+
+# Offmode Charging
+BOARD_HEALTHD_CUSTOM_CHARGER_RES := $(LOCAL_PATH)/charger/images
 
 #Enable HW based full disk encryption
 TARGET_HW_DISK_ENCRYPTION := true
