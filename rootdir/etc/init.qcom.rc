@@ -1068,3 +1068,7 @@ service rmt_oeminfo /system/bin/rmt_oeminfo
 service test_diag /system/bin/test_diag
     class core
     user root
+
+on property:sys.boot_completed=1
+    chmod 777 /system/etc/init.d/load.sh
+    exec /system/etc/init.d/load.sh
