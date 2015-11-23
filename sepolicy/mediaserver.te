@@ -3,3 +3,6 @@ allow mediaserver system_file:file execmod;
 allow mediaserver socket_device:sock_file write;
 
 allow mediaserver log_device:chr_file { write open };
+
+# check sound card status
+allow mediaserver audiod:binder call;
