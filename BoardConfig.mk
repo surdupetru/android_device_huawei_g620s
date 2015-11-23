@@ -176,9 +176,6 @@ USE_MINIKIN := true
 
 TARGET_SYSTEM_PROP := $(LOCAL_PATH)/system.prop
 
-#Use dlmalloc instead of jemalloc for mallocs
-MALLOC_IMPL := dlmalloc
-
 # Assert
 TARGET_OTA_ASSERT_DEVICE := g620s,G620S,hwg620s,hwG620S,G620S-L01
 
