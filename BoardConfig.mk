@@ -160,6 +160,11 @@ PROTOBUF_SUPPORTED := true
 # FM
 TARGET_QCOM_NO_FM_FIRMWARE := true
 
+# CMHW
+BOARD_USES_CYANOGEN_HARDWARE := true
+BOARD_HARDWARE_CLASS := \
+    hardware/cyanogen/cmhw
+
 # SELinux
 include device/qcom/sepolicy/sepolicy.mk
 
