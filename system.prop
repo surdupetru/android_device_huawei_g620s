@@ -78,9 +78,6 @@ audio.offload.pcm.24bit.enable=true
 use.voice.path.for.pcm.voip=true
 vidc.enc.narrow.searchrange=1
 
-#Set composition for USB
-persist.sys.usb.config=mtp,adb
-
 # Camera
 ro.config.hw_camera_hdr=true
 ro.config.camera_target_track=true
