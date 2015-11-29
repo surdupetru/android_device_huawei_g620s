@@ -98,7 +98,6 @@ PRODUCT_COPY_FILES += \
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/prebuilts/etc/init.qcom.bt.sh:system/bin/init.qcom.bt.sh \
-    $(LOCAL_PATH)/prebuilts/etc/init.qcom.fm.sh:system/etc/init.qcom.fm.sh \
     $(LOCAL_PATH)/prebuilts/etc/init.qcom.zram.sh:system/bin/init.qcom.zram.sh
 
 # Screen density
