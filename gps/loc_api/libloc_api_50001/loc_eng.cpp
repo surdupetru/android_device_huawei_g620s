@@ -223,7 +223,6 @@ static void* noProc(void* data)
     return NULL;
 }
 
-
 /*********************************************************************
  * definitions of the static messages used in the file
  *********************************************************************/
@@ -792,11 +791,13 @@ void LocEngReportPosition::proc() const {
             locEng->adapter->setInSession(false);
         }
 
+        LOC_LOGV("LocEngReportPosition::proc() - generateNmea: %d, position source: %d, "
+                 "engine_status: %d, isInSession: %d",
+                        locEng->generateNmea, mLocation.position_source,
+                        locEng->engine_status, locEng->adapter->isInSession());
+
         if (locEng->generateNmea &&
-            mLocation.position_source == ULP_LOCATION_IS_FROM_GNSS &&
-            mTechMask & (LOC_POS_TECH_MASK_SATELLITE |
-                         LOC_POS_TECH_MASK_SENSORS |
-                         LOC_POS_TECH_MASK_HYBRID))
+            locEng->adapter->isInSession())
         {
             unsigned char generate_nmea = reported &&
                                           (mStatus != LOC_SESS_FAILURE);
@@ -827,7 +828,7 @@ void LocEngReportPosition::send() const {
 
 //        case LOC_ENG_MSG_REPORT_SV:
 LocEngReportSv::LocEngReportSv(LocAdapterBase* adapter,
-                               GpsSvStatus &sv,
+                               GnssSvStatus &sv,
                                GpsLocationExtended &locExtended,
                                void* svExt) :
     LocMsg(), mAdapter(adapter), mSvStatus(sv),
@@ -1768,7 +1769,7 @@ int loc_eng_init(loc_eng_data_s_type &loc_eng_data, LocCallbacks* callbacks,
 
     loc_eng_data.adapter =
         new LocEngAdapter(event, &loc_eng_data, context,
-                          (MsgTask::tCreate)callbacks->create_thread_cb);
+                          (LocThread::tCreate)callbacks->create_thread_cb);
 
     LOC_LOGD("loc_eng_init created client, id = %p\n",
              loc_eng_data.adapter);
@@ -2586,29 +2587,29 @@ int loc_eng_set_server_proxy(loc_eng_data_s_type &loc_eng_data,
     ENTRY_LOG_CALLFLOW();
     int ret_val = 0;
 
+    LOC_LOGV("save the address, type: %d, hostname: %s, port: %d",
+             (int) type, hostname, port);
+    switch (type)
+    {
+    case LOC_AGPS_SUPL_SERVER:
+        strlcpy(loc_eng_data.supl_host_buf, hostname,
+                sizeof(loc_eng_data.supl_host_buf));
+        loc_eng_data.supl_port_buf = port;
+        loc_eng_data.supl_host_set = 1;
+        break;
+    case LOC_AGPS_CDMA_PDE_SERVER:
+        strlcpy(loc_eng_data.c2k_host_buf, hostname,
+                sizeof(loc_eng_data.c2k_host_buf));
+        loc_eng_data.c2k_port_buf = port;
+        loc_eng_data.c2k_host_set = 1;
+        break;
+    default:
+        LOC_LOGE("loc_eng_set_server_proxy, unknown server type = %d", (int) type);
+    }
+
     if (NULL != loc_eng_data.adapter)
     {
         ret_val = loc_eng_set_server(loc_eng_data, type, hostname, port);
-    } else {
-        LOC_LOGW("set_server called before init. save the address, type: %d, hostname: %s, port: %d",
-                 (int) type, hostname, port);
-        switch (type)
-        {
-        case LOC_AGPS_SUPL_SERVER:
-            strlcpy(loc_eng_data.supl_host_buf, hostname,
-                    sizeof(loc_eng_data.supl_host_buf));
-            loc_eng_data.supl_port_buf = port;
-            loc_eng_data.supl_host_set = 1;
-            break;
-        case LOC_AGPS_CDMA_PDE_SERVER:
-            strlcpy(loc_eng_data.c2k_host_buf, hostname,
-                    sizeof(loc_eng_data.c2k_host_buf));
-            loc_eng_data.c2k_port_buf = port;
-            loc_eng_data.c2k_host_set = 1;
-            break;
-        default:
-            LOC_LOGE("loc_eng_set_server_proxy, unknown server type = %d", (int) type);
-        }
     }
 
     EXIT_LOG(%d, ret_val);
@@ -2855,9 +2856,8 @@ void loc_eng_handle_engine_up(loc_eng_data_s_type &loc_eng_data)
     // modem is back up.  If we crashed in the middle of navigating, we restart.
     if (loc_eng_data.adapter->isInSession()) {
         // This sets the copy in adapter to modem
-        loc_eng_data.adapter->setPositionMode(NULL);
         loc_eng_data.adapter->setInSession(false);
-        loc_eng_start_handler(loc_eng_data);
+        loc_eng_data.adapter->sendMsg(new LocEngStartFix(loc_eng_data.adapter));
     }
     EXIT_LOG(%s, VOID_RET);
 }

@@ -36,7 +36,7 @@ on early-init
     symlink /data/tombstones /tombstones
 
 on init
-    export LD_PRELOAD "libboringssl-compat.so"
+    export LD_PRELOAD libboringssl-compat.so
 
     # Support legacy paths
     symlink /sdcard /mnt/sdcard
@@ -54,11 +54,7 @@ on fs
 on early-boot
     # set RLIMIT_MEMLOCK to 64MB
     setrlimit 8 67108864 67108864
-    # Allow subsystem (modem etc) debugging
-    write /sys/module/subsystem_restart/parameters/enable_debug ${persist.sys.ssr.enable_debug}
-    write /sys/module/pil_msa/parameters/pbl_mba_boot_timeout_ms ${persist.sys.mba_boot_timeout}
-    write /sys/module/pil_msa/parameters/modem_auth_timeout_ms ${persist.sys.modem_auth_timeout}
-    write /sys/module/peripheral_loader/parameters/proxy_timeout_ms ${persist.sys.pil_proxy_timeout}
+
     write /sys/kernel/boot_adsp/boot 1
     chown root audio /sys/kernel/boot_adsp/boot
 
@@ -101,7 +97,7 @@ on boot
     chmod 0660 /sys/devices/virtual/graphics/fb0/hbm
 
     chown system system /sys/class/timed_output/vibrator/vtg_level
-    chmod 0644 /sys/class/timed_output/vibrator/vtg_level
+    chmod 0660 /sys/class/timed_output/vibrator/vtg_level
 
     chown system system /sys/class/graphics/fb0/mipi_crc
 
@@ -398,9 +394,6 @@ on post-fs-data
     mkdir /data/nfc 0770 nfc nfc
     mkdir /data/nfc/param 0770 nfc nfc
 
-    # Sensor
-    mkdir /persist/sensors 0770 system system
-
     # RIDL data
     mkdir /data/misc/SelfHost/ 0710 system shell
     mkdir /data/misc/SelfHost/QCLogs/ 2750 system shell
@@ -427,21 +420,6 @@ on property:persist.usb.chgdisabled=1
 
 on property:persist.usb.chgdisabled=0
     write /sys/class/power_supply/battery/charging_enabled 1
-
-service qrngd /system/bin/qrngd -f
-   class main
-   user root
-   group root
-
-service qrngp /system/bin/qrngp -f
-   class main
-   user root
-   group root
-   oneshot
-   disabled
-
-on property:sys.boot_completed=1
-   start qrngp
 
 service qseecomd /system/bin/qseecomd
    class core
@@ -470,19 +448,6 @@ service audiod /system/bin/audiod
    class late_start
    user system
    group system
-
-service ppd /system/bin/mm-pp-daemon
-    class late_start
-    disabled
-    user system
-    socket pps stream 0660 system system
-    group system graphics
-
-on property:init.svc.surfaceflinger=stopped
-    stop ppd
-
-on property:init.svc.surfaceflinger=running
-    start ppd
 
 service wcnss-service /system/bin/wcnss_service
     class late_start
@@ -675,6 +640,7 @@ on property:bluetooth.hciattach=true
     start hciattach
 
 on property:bluetooth.hciattach=false
+    write /sys/module/radio_iris_transport/parameters/fmsmd_set 0
     setprop bluetooth.status off
 
 service bt-dun /system/bin/dun-server /dev/smd7 /dev/rfcomm0
@@ -721,6 +687,10 @@ service qmiproxy /system/bin/qmiproxy
     class main
     user radio
     group radio qcom_diag
+
+# FM
+on property:bluetooth.status=on
+    write /sys/module/radio_iris_transport/parameters/fmsmd_set 1
 
 # QMUX must be in multiple groups to support external process connections
 service qmuxd /system/bin/qmuxd
@@ -892,10 +862,6 @@ service loc_launcher /system/bin/loc_launcher
     class late_start
     group gps inet net_raw qcom_diag net_admin wifi
 
-on property:crypto.driver.load=1
-     insmod /system/lib/modules/qce.ko
-     insmod /system/lib/modules/qcedev.ko
-
 service drmdiag /system/bin/drmdiagapp
     class late_start
      user root
@@ -974,7 +940,7 @@ service hcidump /system/bin/sh /system/etc/hcidump.sh
     disabled
     oneshot
 
-service charger /sbin/healthd -c
+service charger /charger
     class charger
     critical
     seclabel u:r:healthd:s0
@@ -1051,12 +1017,17 @@ service RIDL /system/vendor/bin/RIDLClient.exe
     # removed for security team - misc bluetooth radio gps wifi diag media_rw
     # limited to 12 groups.  Unused: audio usb qcom_diag net_bt_admin net_bt_stac net_raw net_admin
 
+service loc_launcher /system/bin/loc_launcher
+    #loc_launcher will start as root and set its uid to gps
+    class late_start
+    group gps inet net_raw qcom_diag net_admin wifi
+
 # Huawei service
-service rmt_oeminfo /system/bin/rmt_oeminfo
+service test_diag /system/bin/test_diag
     class core
     user root
 
-service test_diag /system/bin/test_diag
+service rmt_oeminfo /system/bin/rmt_oeminfo
     class core
     user root
 

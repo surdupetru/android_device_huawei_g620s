@@ -303,4 +303,7 @@
           error cause as Regular deactivation(36). -->
     <bool name="config_restart_radio_on_pdp_fail_regular_deactivation">false</bool>
 
+    <!-- monitor locale change -->
+    <bool name="config_monitor_locale_change">true</bool>
+
 </resources>

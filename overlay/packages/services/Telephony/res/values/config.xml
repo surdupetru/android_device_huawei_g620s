@@ -23,4 +23,7 @@
 
     <!-- Show enabled lte option for lte device -->
     <bool name="config_enabled_lte" translatable="false">true</bool>
+
+    <!-- Some vendors don't want to allow non slot 0 to be set to default for calls/sms -->
+    <bool name="config_hardcodeDefaultMobileNetworks">true</bool>
 </resources>

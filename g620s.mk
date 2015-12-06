@@ -33,6 +33,7 @@ PRODUCT_COPY_FILES += \
 # media_profiles and media_codecs xmls for 8916
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/prebuilts/media_codecs.xml:system/etc/media_codecs.xml \
+    $(LOCAL_PATH)/prebuilts/media_codecs_performance.xml:system/etc/media_codecs_performance.xml \
     $(LOCAL_PATH)/prebuilts/media_profiles.xml:system/etc/media_profiles.xml
 
 PRODUCT_COPY_FILES += \
@@ -68,6 +69,7 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.sensor.gyroscope.xml:system/etc/permissions/android.hardware.sensor.gyroscope.xml \
     frameworks/native/data/etc/android.hardware.sensor.light.xml:system/etc/permissions/android.hardware.sensor.light.xml \
     frameworks/native/data/etc/android.hardware.sensor.proximity.xml:system/etc/permissions/android.hardware.sensor.proximity.xml \
+    frameworks/native/data/etc/android.hardware.opengles.aep.xml:system/etc/permissions/android.hardware.opengles.aep.xml \
     frameworks/native/data/etc/android.software.sip.voip.xml:system/etc/permissions/android.software.sip.voip.xml \
     frameworks/native/data/etc/handheld_core_hardware.xml:system/etc/permissions/handheld_core_hardware.xml
 
@@ -130,19 +132,11 @@ PRODUCT_PACKAGES += \
     libboringssl-compat \
     libcam
 
-# ffmpeg codecs
-PRODUCT_PACKAGES += \
-    media_codecs_ffmpeg.xml
-
 # dataservices
 PRODUCT_PACKAGES += \
     librmnetctl \
     rmnetcli \
     sockev
-
-# Lights
-PRODUCT_PACKAGES += \
-    lights.msm8916
 
 # Charger
 PRODUCT_PACKAGES += \
@@ -151,13 +145,6 @@ PRODUCT_PACKAGES += \
 # Connectivity Engine support
 PRODUCT_PACKAGES += \
     libcnefeatureconfig
-
-# Filesystem management tools
-PRODUCT_PACKAGES += \
-    make_ext4fs \
-    setup_fs \
-    e2fsck \
-    librs_jni
 
 # FM
 PRODUCT_PACKAGES += \
@@ -193,24 +180,19 @@ PRODUCT_PACKAGES += \
 # OMX
 PRODUCT_PACKAGES += \
     libc2dcolorconvert \
-    libdashplayer \
     libdivxdrmdecrypt \
-    libextmedia_jni \
     libOmxAacEnc \
     libOmxAmrEnc \
     libOmxCore \
     libOmxEvrcEnc \
     libOmxQcelp13Enc \
     libOmxVdec \
-    libOmxVdecHevc \
     libOmxVenc \
-    libOmxVidcCommon \
-    libqcmediaplayer \
-    libstagefrighthw \
-    qcmediaplayer
+    libstagefrighthw
 
-PRODUCT_BOOT_JARS += \
-    qcmediaplayer
+# mm-dash
+PRODUCT_PACKAGES += \
+    libextmedia_jni
 
 # Power
 PRODUCT_PACKAGES += \
@@ -234,10 +216,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     libxml2
 
-# USB
-PRODUCT_PACKAGES += \
-    com.android.future.usb.accessory
-
 # WiFi
 PRODUCT_PACKAGES += \
     libqsap_sdk \
@@ -249,9 +227,9 @@ PRODUCT_PACKAGES += \
     wpa_supplicant.conf \
     wcnss_service
 
-# Huawei symbols
 PRODUCT_PACKAGES += \
-    libh_symbols
+    libbson \
+    libstlport
 
 # Art
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -259,12 +237,13 @@ PRODUCT_PROPERTY_OVERRIDES += \
     dalvik.vm.dex2oat-flags=--no-watch-dog
 
 PRODUCT_PROPERTY_OVERRIDES += \
+    dalvik.vm.dex2oat-threads=2 \
+    dalvik.vm.image-dex2oat-threads=4
+
+PRODUCT_PROPERTY_OVERRIDES += \
     dalvik.vm.heapgrowthlimit=128m \
     dalvik.vm.heapminfree=6m \
     dalvik.vm.heapstartsize=14m \
-    persist.radio.no_wait_for_card=1 \
-    persist.radio.apm_sim_not_pwdn=1 \
-    persist.radio.sib16_support=1 \
     ro.sf.lcd_density=320
 
 PRODUCT_PROPERTY_OVERRIDES += \
